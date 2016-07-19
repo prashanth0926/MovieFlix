@@ -6,7 +6,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var movieRouter = express.Router();
 var Movies = require('../models/movies');
-var verify = require('./verify');
+var verify = require('../verify');
 
 movieRouter.use(bodyParser.json());
 
