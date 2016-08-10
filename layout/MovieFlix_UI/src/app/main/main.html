@@ -1,0 +1,99 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+              ng-click="main.isCollapsed = !main.isCollapsed">
+        <span class="sr-only">Toggle search and login</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a ui-sref="main.main" class="navbar-brand"><h2><strong>MovieFlix</strong></h2></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" uib-collapse="main.isCollapsed">
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <div class="inner-addon right-addon search">
+            <i class="glyphicon glyphicon-search"></i>
+            <input type="search" ng-model="search" ng-change="main.search = search;" placeholder="Search"
+                   typeahead-on-select="main.openDetails(search); search = main.search;"
+                   uib-typeahead="movie for movie in main.movies | filter:{Title:$viewValue} | limitTo:6"
+                   typeahead-template-url="app/main/searchTemplate.html" class="form-control"
+                   typeahead-show-hint="false" typeahead-min-length="0">
+          </div>
+        </li>
+        <li>
+          <a ng-click="main.pleaseLogIn = false; main.openLogin(main.logged.value);" id="loginButton">
+            <span class="glyphicon glyphicon-log-{{main.logged.icon}}"></span> {{main.logged.text}}
+          </a>
+          <input ng-hide="true" id="loginButton1" type="hidden" ng-click="main.loginClick(main.logged.value);">
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="filter">
+  <div class="container">
+    <div class="form-group">
+      <label for="type" class="">Type: </label>
+      <div id="type" class="myBtns" ng-dropdown-multiselect="" options="main.typeData" selected-model="main.typeModel"
+           events="main.commonEvents" extra-settings="main.singleSettings" translation-texts="main.myFilts[0]"></div>
+    </div>
+    <div class="form-group">
+      <label for="rating" class="">Rating: </label>
+      <div id="rating" class="myBtns" ng-dropdown-multiselect="" options="main.imdbData" selected-model="main.imdbModel"
+           events="main.commonEvents" extra-settings="main.singleSettings" translation-texts="main.myFilts[1]"></div>
+    </div>
+    <div class="form-group">
+      <label for="year" class="">Year: </label>
+      <div id="year" class="myBtns" ng-dropdown-multiselect="" options="main.yearData" selected-model="main.yearModel"
+           events="main.commonEvents" extra-settings="main.singleSettings" translation-texts="main.myFilts[2]"></div>
+    </div>
+    <div class="form-group">
+      <label for="genre" class="">Genre: </label>
+      <div id="genre" class="myBtns" ng-dropdown-multiselect="" options="main.genreData"
+           selected-model="main.genreModel"
+           events="main.genreEvents" extra-settings="main.genreSettings" translation-texts="main.myFilts[3]"></div>
+    </div>
+    <div class="form-group">
+      <label for="sort" class="">Sort by: </label>
+      <div id="sort" class="myBtns" ng-dropdown-multiselect="" options="main.sortData" selected-model="main.sortModel"
+           extra-settings="main.singleSettings" translation-texts="main.myFilts[4]"></div>
+    </div>
+    <div class="form-group">
+      <button ng-click="main.resetFilters()" class="btn btn-default rstBtn">Reset</button>
+    </div>
+  </div>
+</section>
+
+<section class="myList">
+  <div class="container-fluid">
+    <div class="row">
+      <ul class="pageContent">
+        <li class="col-sm-5 col-md-3 col-lg-2 itemList"
+            ng-repeat="movie in pageFiltered = (main.movies | filter: {Type: main.typeModel.id} | genreFilter: main.selectedGenre : 'AND' | filter: main.greaterThan('imdbRating', main.imdbModel.id) | filter: main.greaterThan('Year', main.yearModel.id)) | orderBy: [main.sortModel.id, '-imdbRating'] | startFrom:(main.currentPage - 1) * main.maxSize | limitTo: main.maxSize">
+          <figure ng-click="main.openDetails(movie)">
+            <div class="hovereffect">
+              <img class="movieImage img-responsive" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
+              <div class="overlay">
+                <h2>{{movie.Title}}</h2>
+                <a class="info">More details</a>
+              </div>
+            </div>
+            <figcaption>{{movie.Title}}</figcaption>
+          </figure>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-offset-5">
+        <ul ng-show="pageFiltered.length" uib-pagination total-items="pageFiltered.length"
+            ng-model="main.currentPage" items-per-page='main.itemsPerPage' max-size="main.maxSize"
+            class="pagination-md myPagination" boundary-links="true" rotate="false"></ul>
+      </div>
+    </div>
+    <div ng-hide="pageFiltered.length"><h1 class="nothingtoshow">Nothing to show</h1></div>
+  </div>
+</section>

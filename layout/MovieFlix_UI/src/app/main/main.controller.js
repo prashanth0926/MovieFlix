@@ -1,0 +1,136 @@
+(function () {
+  'use strict';
+
+  angular
+    .module('movieFlixUi')
+    .controller('MainController', MainController);
+
+  /** @ngInject */
+  function MainController(movies, dropDownData, $uibModal, $log) {
+    var vm = this;
+
+    /** navigation and login vars */
+    vm.isCollapsed = true;
+    vm.logged = {text: "Login", icon: "in", value: false};
+    vm.pleaseLogIn = true;
+    vm.search = '';
+
+    /** get the list of movies */
+    vm.movies = getMovies();
+
+    /** modals*/
+    vm.openLogin = openLogin;
+    vm.openDetails = openDetails;
+
+    /** drop down filters */
+    vm.myFilts = dropDownData.getButtonTexts();
+    vm.typeModel = {id: 'i'}, vm.imdbModel = {id: 2}, vm.yearModel = {id: 1900}, vm.genreModel = [], vm.sortModel = {id: '-imdbRating'};
+    var optionsData = dropDownData.getOptionsData();
+    vm.typeData = optionsData.typeData;
+    vm.imdbData = optionsData.imdbData;
+    vm.yearData = optionsData.yearData;
+    vm.genreData = optionsData.genreData;
+    vm.sortData = optionsData.sortData;
+    var settingsData = dropDownData.getSettingsData();
+    vm.singleSettings = settingsData.singleSettings;
+    vm.genreSettings = settingsData.genreSettings;
+
+    /** filtering */
+    vm.greaterThan = greaterThan;
+    vm.selectedGenre = '';
+    vm.genreEvents = {onItemSelect: genreFilter, onItemDeselect: genreFilter};
+    vm.resetFilters = resetFilters;
+
+    /** pagination */
+    vm.currentPage = 1;
+    vm.itemsPerPage = 5;
+    vm.maxSize = 5;
+
+
+    function getMovies() {
+      //return movies.getLocalMovies();
+      if (vm.logged.value) {
+        return (movies.getApiMovies());
+      } else {
+        return (movies.getLocalMovies());
+      }
+    }
+
+    function greaterThan(prop, val) {
+      return function (item) {
+        return parseInt(item[prop]) >= val;
+      }
+    }
+
+    function genreFilter() {
+      if (vm.genreModel.length == 1) {
+        vm.selectedGenre = vm.genreModel[0].id
+      } else if (vm.genreModel.length == 0) {
+        vm.selectedGenre = '';
+      } else if (vm.genreModel.length == 2) {
+        vm.selectedGenre = vm.genreModel[0].id + '  ' + vm.genreModel[1].id;
+      } else {
+        vm.selectedGenre = vm.genreModel[0].id + '  ' + vm.genreModel[1].id + '  ' + vm.genreModel[2].id;
+      }
+    }
+
+    function resetFilters() {
+      vm.typeModel = {id: 'i'}, vm.imdbModel = {id: 2}, vm.yearModel = {id: 1900}, vm.genreModel = [], vm.sortModel = {id: '-imdbRating'};
+      vm.selectedGenre = '';
+    }
+
+    function openLogin(val) {
+      if (val) {
+        vm.logged = {text: "Login", icon: "in", value: false};
+        vm.movies = getMovies();
+        $log.info('Logged out at: ' + new Date());
+      } else {
+        var modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'app/login/login.html',
+          controller: 'LoginController',
+          controllerAs: 'login',
+          resolve: {
+            pleaseLogin: function () {
+              return vm.pleaseLogIn;
+            }
+          },
+          windowClass: 'app-modal-login-window',
+          size: "md"
+        });
+        modalInstance.result.then(function () {
+          vm.logged = {text: 'Logout', icon: 'out', value: true};
+          vm.movies = getMovies();
+          $log.info('Logged in at: ' + new Date());
+        }, function () {
+
+        });
+      }
+    }
+
+    function openDetails(movie) {
+      if (vm.logged.value) {
+        var modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: 'app/details/details.html',
+          controller: 'DetailsController',
+          controllerAs: 'detail',
+          windowClass: 'app-modal-details-window',
+          size: "lg",
+          resolve: {
+            movie: movie
+          }
+        });
+        modalInstance.result.then(function () {
+
+        }, function () {
+
+        });
+      } else {
+        vm.pleaseLogIn = true;
+        vm.openLogin(false);
+      }
+    }
+
+  }
+})();
