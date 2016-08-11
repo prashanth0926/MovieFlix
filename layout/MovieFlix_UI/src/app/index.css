@@ -95,6 +95,11 @@ figcaption {
   margin-top: 170px;
 }
 
+.addMovie{
+  margin-top: 17px;
+  margin-left: 35px;
+}
+
 /** image hover */
 .hovereffect {
   width: 100%;

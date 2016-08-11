@@ -1,30 +1,36 @@
 <div class="modal-header">
-  <button type="button" ng-click="register.cancel()" class="close dismissModal1">&times;</button>
-  <h4 class="modal-title">Register </h4>
+  <button type="button" ng-click="add.cancel()" class="close dismissModal1">&times;</button>
+  <h4 class="modal-title">Add Movie / TV Series </h4>
 </div>
 <div class="modal-body">
-  <form class="" name="registerForm" ng-submit="" autocomplete="off">
+  <form class="form-horizontal" name="registerForm" ng-submit="" autocomplete="off">
     <div class="form-group"
-         ng-class="{'has-error has-feedback' : (registerForm.firstname.$error.required || registerForm.firstname.$error.pattern) && !registerForm.firstname.$pristine }">
-      <label for="firstname" class="control-label">First Name</label>
-      <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter First Name"
-             ng-model="register.userinfo.firstname" required ng-pattern="/^[a-zA-Z ]*$/">
-      <span
-        ng-show="(registerForm.firstname.$error.required || registerForm.firstname.$error.pattern) && !registerForm.firstname.$pristine"
-        class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-      <span ng-show="registerForm.firstname.$error.required && !registerForm.firstname.$pristine" class="help-block">Your First name is required.</span>
-      <span ng-show="registerForm.firstname.$error.pattern && !registerForm.firstname.$pristine" class="help-block">Name must only contain alphabets</span>
+         ng-class="{'has-error has-feedback' : (registerForm.title.$error.required || registerForm.title.$error.pattern) && !registerForm.title.$pristine }">
+      <label for="title" class="control-label col-md-3">Title</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title"
+               ng-model="add.movieItem.Title" required ng-pattern="/^[a-zA-Z0-9\-\ ]*$/">
+        <span
+          ng-show="(registerForm.title.$error.required || registerForm.title.$error.pattern) && !registerForm.title.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="registerForm.title.$error.required && !registerForm.title.$pristine" class="help-block">Title is required.</span>
+        <span ng-show="registerForm.title.$error.pattern && !registerForm.title.$pristine" class="help-block">Title must only contain alphanumerics and hyphens</span>
+      </div>
     </div>
     <div class="form-group"
          ng-class="{'has-error has-feedback' : (registerForm.lastname.$error.required || registerForm.lastname.$error.pattern) && !registerForm.lastname.$pristine}">
-      <label for="lastname" class="control-label">Last Name</label>
-      <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Last Name"
-             ng-model="register.useinfo.lastname" required ng-pattern="/^[a-zA-Z ]*$/">
-      <span
-        ng-show="(registerForm.lastname.$error.required || registerForm.lastname.$error.pattern) && !registerForm.lastname.$pristine"
-        class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-      <span ng-show="registerForm.lastname.$error.required && !registerForm.lastname.$pristine" class="help-block">Your Last name is required.</span>
-      <span ng-show="registerForm.lastname.$error.pattern && !registerForm.lastname.$pristine" class="help-block">Name must only contain alphabets</span>
+      <label for="year" class="control-label col-md-3">Release Date</label>
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" id="year" name="year" class="form-control" uib-datepicker-popup="dd MMM yyyy"
+                 is-open="popDatepicker" ng-focus="popDatepicker = !popDatePicker" ng-model="add.movieItem.Released"
+                 datepicker-options="add.dateOptions" ng-required="true" close-text="Close"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="popDatepicker = !popDatePicker"><i
+              class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
+      </div>
     </div>
     <div class="form-group"
          ng-class="{ 'has-error has-feedback' : registerForm.emailid.$invalid && !registerForm.emailid.$pristine }">

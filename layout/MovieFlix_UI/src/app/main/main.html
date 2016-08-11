@@ -62,7 +62,7 @@
            extra-settings="main.singleSettings" translation-texts="main.myFilts[4]"></div>
     </div>
     <div class="form-group">
-      <button ng-click="main.resetFilters()" class="btn btn-default rstBtn">Reset</button>
+      <button ng-click="main.resetFilters()" class="btn btn-default rstBtn">Reset Filters</button>
     </div>
   </div>
 </section>
@@ -88,7 +88,10 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-offset-5">
+      <div class="col-sm-4 pull-right">
+        <button ng-click="main.openAddMovie({})" class="btn btn-default addMovie">Add Movie / TV Series</button>
+      </div>
+      <div class="col-sm-offset-4">
         <ul ng-show="pageFiltered.length" uib-pagination total-items="pageFiltered.length"
             ng-model="main.currentPage" items-per-page='main.itemsPerPage' max-size="main.maxSize"
             class="pagination-md myPagination" boundary-links="true" rotate="false"></ul>

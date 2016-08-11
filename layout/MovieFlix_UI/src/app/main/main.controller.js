@@ -21,6 +21,7 @@
     /** modals*/
     vm.openLogin = openLogin;
     vm.openDetails = openDetails;
+    vm.openAddMovie = openAddMovie;
 
     /** drop down filters */
     vm.myFilts = dropDownData.getButtonTexts();
@@ -45,7 +46,6 @@
     vm.currentPage = 1;
     vm.itemsPerPage = 5;
     vm.maxSize = 5;
-
 
     function getMovies() {
       //return movies.getLocalMovies();
@@ -130,6 +130,25 @@
         vm.pleaseLogIn = true;
         vm.openLogin(false);
       }
+    }
+
+    function openAddMovie(movie) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        templateUrl: 'app/add/add.html',
+        controller: 'AddController',
+        controllerAs: 'add',
+        windowClass: 'app-modal-add-window',
+        size: "lg",
+        resolve: {
+          movie: movie
+        }
+      });
+      modalInstance.result.then(function () {
+        $log.log("movie added");
+      }, function () {
+        $log.log("add movie modal closed");
+      });
     }
 
   }
