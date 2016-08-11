@@ -50,7 +50,8 @@
     function getMovies() {
       //return movies.getLocalMovies();
       if (vm.logged.value) {
-        return (movies.getApiMovies());
+        return (movies.getLocalMovies());
+        // return (movies.getApiMovies());
       } else {
         return (movies.getLocalMovies());
       }
