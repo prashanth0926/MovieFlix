@@ -12,7 +12,7 @@
     .service('auth', auth);
 
   /** @ngInject */
-  function auth($http, api, $resource, storage, ngDialog, $log) {
+  function auth($http, api, $resource, storage, $log) {
 
     var TOKEN_KEY = 'Token';
     var isAuthenticated = false;
@@ -33,11 +33,6 @@
       $resource(api + 'users/login')
         .save(data,
           function (res) {
-            if (data.username === 'admin@movieflix.com') {
-              admin = true;
-            } else {
-              admin = false;
-            }
             storeUserCredentials({username: data.username, token: res.token});
           },
           function (res) {
@@ -66,6 +61,7 @@
           function () {
 
           });
+      admin = false;
       destroyUserCredentials();
     }
 
@@ -82,6 +78,9 @@
     }
 
     function useCredentials(credentials) {
+      if (credentials.username == 'admin@movieflix.com') {
+        admin = true;
+      }
       isAuthenticated = true;
       username = credentials.username;
       authToken = credentials.token;

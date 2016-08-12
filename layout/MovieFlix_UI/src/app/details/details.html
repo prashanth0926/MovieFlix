@@ -1,5 +1,9 @@
 <div class="modal-header">
   <button type="button" ng-click="detail.cancel()" class="close dismissModal1">&times;</button>
+  <div ng-show="detail.admin">
+    <i title="edit movie / tv series" class="btn btn-primary glyphicon glyphicon-edit"></i>
+    <i title="delete movie / tv series" class="btn btn-danger glyphicon glyphicon-remove"></i>
+  </div>
 </div>
 <div class="modal-body">
   <div class="modalDtls">
@@ -104,27 +108,35 @@
           </legend>
           <div>
             <blockquote ng-repeat="review in detail.movie.Reviews | orderBy:srtText">
+              <div class="row">
+                <div class="col-sm-4">
               <span class="rtngBar" uib-rating ng-model="review.rating" max=5 read-only="true"
                     enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
-              <span class="label hoverLabel"
-                    ng-class="{'label-danger': review.rating<2, 'label-warning': review.rating>=2 && review.rating<3,
+                  <span class="label hoverLabel"
+                        ng-class="{'label-danger': review.rating<2, 'label-warning': review.rating>=2 && review.rating<3,
                     'label-info': review.rating>=3 && review.rating<4, 'label-success': review.rating>=4}"
-                    ng-show="true">{{detail.rtngText(review.rating)}}</span>
-              <p>{{review.comment}}</p>
-              <footer>{{review.postedBy.getName()}}, {{review.updatedAt | date:'MMM. d, y'}}</footer>
+                        ng-show="true">{{detail.rtngText(review.rating)}}</span>
+                  <input ng-disabled="true" class="commentText" type="text" value="{{review.comment}}"/>
+                </div>
+                <div class="col-sm-1">
+                  <i title="edit review" class="btn btn-primary glyphicon glyphicon-edit"></i>
+                  <i title="delete review" class="btn btn-danger glyphicon glyphicon-remove"></i>
+                </div>
+              </div>
+              <footer>{{review.postedBy.firstname}}, {{review.updatedAt | date:'MMM. d, y'}}</footer>
             </blockquote>
           </div>
 
-          <div class="col-xs-9 col-xs-offset-1">
-            <blockquote ng-show="!commentForm.$invalid">
+          <blockquote ng-show="!commentForm.$invalid">
               <span class="rtngBar" uib-rating ng-model="detail.myReview.rating" max=5 read-only="true"
                     enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
-              <span class="label hoverLabel"
-                    ng-class="{'label-danger': detail.myReview.rating<2, 'label-warning': detail.myReview.rating>=2 && detail.myReview.rating<3, 'label-info': detail.myReview.rating>=3 && detail.myReview.rating<4, 'label-success': detail.myReview.rating>=4}"
-                    ng-show="true">{{detail.rtngText(detail.myReview.rating)}}</span>
-              <p>{{detail.myReview.comment}}</p>
-              <footer>{{detail.myReview.author}}, {{detail.myReview.date | date:'MMM. d, y'}}</footer>
-            </blockquote>
+            <span class="label hoverLabel"
+                  ng-class="{'label-danger': detail.myReview.rating<2, 'label-warning': detail.myReview.rating>=2 && detail.myReview.rating<3, 'label-info': detail.myReview.rating>=3 && detail.myReview.rating<4, 'label-success': detail.myReview.rating>=4}"
+                  ng-show="true">{{detail.rtngText(detail.myReview.rating)}}</span>
+            <p>{{detail.myReview.comment}}</p>
+            <footer>{{detail.myReview.author}}, {{detail.myReview.date | date:'MMM. d, y'}}</footer>
+          </blockquote>
+          <div class="col-xs-9 col-xs-offset-1">
             <form class="form-horizontal" name="commentForm"
                   ng-submit="" novalidate>
               <div class="form-group">
@@ -149,7 +161,8 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" ng-click="detail.submitReview(); commentForm.$setPristine();" class="btn btn-primary" ng-disabled="commentForm.$invalid">Submit Review
+                  <button type="submit" ng-click="detail.submitReview(); commentForm.$setPristine();"
+                          class="btn btn-primary" ng-disabled="commentForm.$invalid">Submit Review
                   </button>
                 </div>
               </div>

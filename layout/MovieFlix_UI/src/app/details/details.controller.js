@@ -10,9 +10,10 @@
     .controller('DetailsController', DetailsController);
 
   /** @ngInject */
-  function DetailsController($uibModalInstance, movie, $log, movies) {
+  function DetailsController($uibModalInstance, movie, $log, movies, auth) {
     var vm = this;
 
+    vm.admin = auth.isAdmin();
     vm.movie = movie;
     vm.srtText = 'date';
     vm.myReview = {rating: 5, comment: ''};
@@ -28,13 +29,12 @@
     function submitReview() {
       movies.getReviews()
         .save({id: movie._id}, vm.myReview,
-        function () {
-          $log.debug('Review submitted');
-        }, function () {
+          function () {
+            vm.myReview = {rating: 5, comment: ''};
+            $uibModalInstance.close();
+          }, function () {
             $log.error('Review submission failed');
           });
-      $log.info("Review: ", vm.myReview);
-      vm.myReview = {rating: 5, comment: ''};
     }
 
     function cancel() {

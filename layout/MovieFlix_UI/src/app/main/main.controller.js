@@ -20,6 +20,7 @@
     vm.search = '';
     vm.username = auth.getUsername();
     vm.movies = [];
+    vm.admin = auth.isAdmin();
 
     /** get the list of movies */
     getMovies();
@@ -45,7 +46,7 @@
     /** filtering */
     vm.greaterThan = greaterThan;
     vm.selectedGenre = '';
-    vm.genreEvents = {onItemSelect: genreFilter, onItemDeselect: genreFilter};
+    vm.genreEvents = {onItemSelect: genreFilter, onItemDeselect: genreFilter, onDeselectAll: function(){vm.selectedGenre = ''}};
     vm.resetFilters = resetFilters;
 
     /** pagination */
@@ -81,8 +82,10 @@
         vm.selectedGenre = '';
       } else if (vm.genreModel.length == 2) {
         vm.selectedGenre = vm.genreModel[0].id + '  ' + vm.genreModel[1].id;
-      } else {
+      } else if (vm.genreModel.length == 3){
         vm.selectedGenre = vm.genreModel[0].id + '  ' + vm.genreModel[1].id + '  ' + vm.genreModel[2].id;
+      } else {
+        vm.selectedGenre = '';
       }
     }
 
@@ -95,6 +98,7 @@
       if (val) {
         auth.logout();
         vm.logged = {text: "Login", icon: "in", value: false};
+        vm.admin = false;
         getMovies();
         $log.info('Logged out at: ' + new Date());
       } else {
@@ -115,6 +119,7 @@
           vm.logged = {text: 'Logout', icon: 'out', value: true};
           vm.username = '...';
           $timeout(function () {
+            vm.admin = auth.isAdmin();
             getMovies();
             vm.username = auth.getUsername();
           }, 500);
@@ -139,7 +144,7 @@
           }
         });
         modalInstance.result.then(function () {
-
+          getMovies();
         }, function () {
 
         });

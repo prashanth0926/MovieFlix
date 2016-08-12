@@ -263,6 +263,10 @@ figcaption {
 }
 
 /** filter section */
+.countItems{
+  margin: 0 10%;
+}
+
 section.filter .btn-group {
   margin: 0px 3%;
 }
@@ -324,6 +328,10 @@ section.filter label {
 }
 
 /** details */
+.commentText{
+  border: none;
+  background: #FFFFFF;
+}
 .detailImg {
   width: 90%;
   height: auto;
