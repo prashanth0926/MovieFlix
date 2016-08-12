@@ -11,8 +11,7 @@ var verify = require('../verify');
 movieRouter.use(bodyParser.json());
 
 movieRouter.route('/')
-    .all(verify.verifyOrdinaryUser)
-    .get(function (req, res, next) {
+    .get(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.find({})
             .populate('Reviews.postedBy')
             .exec(function (err, out) {
@@ -20,7 +19,7 @@ movieRouter.route('/')
                 res.json(out);
             });
     })
-    .post(verify.verifyAdmin, function (req, res, next) {
+    .post(verify.verifyOrdinaryUser, verify.verifyAdmin, function (req, res, next) {
         Movies.create(req.body, function (err, out) {
             if (err)    throw err;
             res.writeHead(200, {
@@ -29,7 +28,7 @@ movieRouter.route('/')
             res.end('Added '+out.length+' movies');
         });
     })
-    .delete(verify.verifyAdmin, function (req, res, next) {
+    .delete(verify.verifyOrdinaryUser, verify.verifyAdmin, function (req, res, next) {
         Movies.remove(function (err, out) {
             if (err)    throw err;
             res.writeHead(200, {
@@ -40,8 +39,7 @@ movieRouter.route('/')
     });
 
 movieRouter.route('/:Id')
-    .all(verify.verifyOrdinaryUser)
-    .get(function (req, res, next) {
+    .get(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id)
             .populate('Reviews.postedBy')
             .exec(function (err, out) {
@@ -49,7 +47,7 @@ movieRouter.route('/:Id')
                 res.json(out);
             });
     })
-    .put(verify.verifyAdmin, function (req, res, next) {
+    .put(verify.verifyOrdinaryUser, verify.verifyAdmin, function (req, res, next) {
         Movies.findByIdAndUpdate(req.params.Id, {
             $set : req.body
         }, {
@@ -63,7 +61,7 @@ movieRouter.route('/:Id')
             console.log('Updated movie '+out.Title);
         });
     })
-    .delete(verify.verifyAdmin, function (req, res, next) {
+    .delete(verify.verifyOrdinaryUser, verify.verifyAdmin, function (req, res, next) {
         Movies.findByIdAndRemove(req.params.Id, function (err, out) {
             if (err)    throw err;
             res.writeHead(200, {
@@ -74,8 +72,7 @@ movieRouter.route('/:Id')
     });
 
 movieRouter.route('/:Id/reviews')
-    .all(verify.verifyOrdinaryUser)
-    .get(function (req, res, next) {
+    .get(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id)
             .populate('Reviews.postedBy')
             .exec(function (err, out) {
@@ -83,7 +80,7 @@ movieRouter.route('/:Id/reviews')
                 res.json(out.Reviews);
             });
     })
-    .post(function (req, res, next) {
+    .post(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
             req.body.postedBy = req.decoded._doc._id;
@@ -97,7 +94,7 @@ movieRouter.route('/:Id/reviews')
             });
         });
     })
-    .delete(verify.verifyAdmin, function (req, res, next) {
+    .delete(verify.verifyOrdinaryUser, verify.verifyAdmin, function (req, res, next) {
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
             out.Reviews = [];
@@ -112,8 +109,7 @@ movieRouter.route('/:Id/reviews')
     });
 
 movieRouter.route('/:Id/reviews/:reviewId')
-    .all(verify.verifyOrdinaryUser)
-    .get(function (req, res, next) {
+    .get(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id)
             .populate('Reviews.postedBy')
             .exec(function (err, out) {
@@ -121,7 +117,7 @@ movieRouter.route('/:Id/reviews/:reviewId')
                 res.json(out.Reviews.id(req.params.reviewId));
             });
     })
-    .put(function (req, res, next) {
+    .put(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
             if (out.Reviews.id(req.params.reviewId).postedBy
@@ -142,7 +138,7 @@ movieRouter.route('/:Id/reviews/:reviewId')
             });
         });
     })
-    .delete(function (req, res, next) {
+    .delete(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
             if (out.Reviews.id(req.params.reviewId).postedBy
