@@ -10,7 +10,7 @@
     .controller('DetailsController', DetailsController);
 
   /** @ngInject */
-  function DetailsController($uibModalInstance, movie, $log) {
+  function DetailsController($uibModalInstance, movie, $log, movies) {
     var vm = this;
 
     vm.movie = movie;
@@ -26,7 +26,15 @@
     vm.rtngText = rtngText;
 
     function submitReview() {
+      movies.getReviews()
+        .save({id: movie._id}, vm.myReview,
+        function () {
+          $log.debug('Review submitted');
+        }, function () {
+            $log.error('Review submission failed');
+          });
       $log.info("Review: ", vm.myReview);
+      vm.myReview = {rating: 5, comment: ''};
     }
 
     function cancel() {

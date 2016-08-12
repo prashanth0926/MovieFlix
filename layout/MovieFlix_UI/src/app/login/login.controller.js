@@ -10,7 +10,7 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($uibModalInstance, $uibModal, pleaseLogin) {
+  function LoginController($uibModalInstance, $uibModal, pleaseLogin, auth, $timeout) {
     var vm = this;
 
     vm.pleaseLogin = pleaseLogin;
@@ -25,11 +25,14 @@
     }
 
     function sendLogin() {
-      if (vm.credentials.password === "1234") {
-        $uibModalInstance.close();
-      } else {
-        vm.loginValidate = true;
-      }
+      auth.login(vm.credentials);
+      $timeout(function () {
+        if(auth.authenticated()){
+          $uibModalInstance.close();
+        } else {
+          vm.loginValidate = true;
+        }
+      }, 500);
     }
 
     function openRegister() {
@@ -41,9 +44,10 @@
         windowClass: 'app-modal-register-window',
         size: "md"
       });
-      modalInstance.result.then(function (args) {
-        vm.credentials.username = args.username;
-        vm.credentials.password = '';
+      modalInstance.result.then(function () {
+        /*vm.credentials.username = args.username;
+        vm.credentials.password = '';*/
+        vm.cancel();
       }, function () {
 
       });

@@ -6,17 +6,23 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController(movies, dropDownData, $uibModal, $log) {
+  function MainController(movies, dropDownData, $uibModal, $log, $timeout, auth) {
     var vm = this;
 
     /** navigation and login vars */
     vm.isCollapsed = true;
-    vm.logged = {text: "Login", icon: "in", value: false};
+    if(auth.authenticated()){
+      vm.logged = {text: "Logout", icon: "out", value: true};
+    } else {
+      vm.logged = {text: "Login", icon: "in", value: false};
+    }
     vm.pleaseLogIn = true;
     vm.search = '';
+    vm.username = auth.getUsername();
+    vm.movies = [];
 
     /** get the list of movies */
-    vm.movies = getMovies();
+    getMovies();
 
     /** modals*/
     vm.openLogin = openLogin;
@@ -48,12 +54,17 @@
     vm.maxSize = 5;
 
     function getMovies() {
-      //return movies.getLocalMovies();
       if (vm.logged.value) {
-        return (movies.getLocalMovies());
-        // return (movies.getApiMovies());
+        movies.getApiMovies().query(
+          function (res) {
+            vm.movies = res;
+          },
+          function (err) {
+            $log.error(err.status, err.statusText);
+          }
+        );
       } else {
-        return (movies.getLocalMovies());
+        vm.movies = movies.getLocalMovies();
       }
     }
 
@@ -82,8 +93,9 @@
 
     function openLogin(val) {
       if (val) {
+        auth.logout();
         vm.logged = {text: "Login", icon: "in", value: false};
-        vm.movies = getMovies();
+        getMovies();
         $log.info('Logged out at: ' + new Date());
       } else {
         var modalInstance = $uibModal.open({
@@ -101,7 +113,11 @@
         });
         modalInstance.result.then(function () {
           vm.logged = {text: 'Logout', icon: 'out', value: true};
-          vm.movies = getMovies();
+          vm.username = '...';
+          $timeout(function () {
+            getMovies();
+            vm.username = auth.getUsername();
+          }, 500);
           $log.info('Logged in at: ' + new Date());
         }, function () {
 

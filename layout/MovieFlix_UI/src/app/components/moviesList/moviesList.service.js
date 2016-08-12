@@ -10,7 +10,7 @@
     .service('movies', movies);
 
   /** @ngInject */
-  function movies() {
+  function movies($resource, api) {
     var data = [
       {
         "Title": "Avengers: Age of Ultron",
@@ -184,13 +184,26 @@
 
     this.getLocalMovies = getLocalMovies;
     this.getApiMovies = getApiMovies;
+    this.getReviews = getReviews;
 
     function getLocalMovies() {
       return data;
     }
 
     function getApiMovies() {
-      return [];
+      return $resource(api + "movies/:id", {
+        'update': {
+          method: 'PUT'
+        }
+      });
+    }
+
+    function getReviews() {
+      return $resource(api + 'movies/:id/reviews/:reviewId', null, {
+        'update': {
+          method: 'PUT'
+        }
+      });
     }
 
   }

@@ -229,6 +229,13 @@ figcaption {
   font-size: large;
 }
 
+.navUsername{
+  color: #FFFFFF;
+  margin-top: 35px;
+  margin-right: 25px;
+  font-size: 0.8em;
+}
+
 .search {
   margin-right: 125px;
 }
@@ -247,8 +254,8 @@ figcaption {
 }
 
 .search ul.dropdown-menu {
-  width: 130%;
-  margin-left: -15%;
+  width: 184%;
+  margin-left: -42%;
 }
 
 .srchImg {

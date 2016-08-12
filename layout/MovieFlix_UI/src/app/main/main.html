@@ -23,10 +23,12 @@
           </div>
         </li>
         <li>
+          <p class="navUsername" ng-show="main.logged.value">Logged in as {{main.username}}</p>
+        </li>
+        <li>
           <a ng-click="main.pleaseLogIn = false; main.openLogin(main.logged.value);" id="loginButton">
             <span class="glyphicon glyphicon-log-{{main.logged.icon}}"></span> {{main.logged.text}}
           </a>
-          <input ng-hide="true" id="loginButton1" type="hidden" ng-click="main.loginClick(main.logged.value);">
         </li>
       </ul>
     </div>

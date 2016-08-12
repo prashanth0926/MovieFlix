@@ -126,7 +126,7 @@
               <footer>{{detail.myReview.author}}, {{detail.myReview.date | date:'MMM. d, y'}}</footer>
             </blockquote>
             <form class="form-horizontal" name="commentForm"
-                  ng-submit="detail.submitReview()" novalidate>
+                  ng-submit="" novalidate>
               <div class="form-group">
                 <label class="col-sm-2 control-label">Rating</label>
                 <span class="rtngBar" uib-rating ng-model="detail.myReview.rating" max=5 read-only="false"
@@ -149,7 +149,7 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary" ng-disabled="commentForm.$invalid">Submit Review
+                  <button type="submit" ng-click="detail.submitReview(); commentForm.$setPristine();" class="btn btn-primary" ng-disabled="commentForm.$invalid">Submit Review
                   </button>
                 </div>
               </div>
