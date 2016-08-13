@@ -14,6 +14,7 @@
     var vm = this;
 
     vm.admin = auth.isAdmin();
+    vm.username = auth.getUsername();
     vm.movie = movie;
     vm.srtText = 'date';
     vm.myReview = {rating: 5, comment: ''};
@@ -25,6 +26,7 @@
     vm.tmpRating = 3;
     vm.clickText = 'Excellent!';
     vm.rtngText = rtngText;
+    vm.myAnimation = 'rubberBand';
 
     function submitReview() {
       movies.getReviews()

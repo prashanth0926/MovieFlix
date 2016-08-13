@@ -10,7 +10,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($uibModalInstance, auth) {
+  function RegisterController($uibModalInstance, auth, $timeout) {
     var vm = this;
 
     vm.userinfo = {firstname: '', lastname: '', username: '', password: ''};
@@ -23,7 +23,9 @@
 
     function sendRegister() {
       auth.register(vm.userinfo);
-      $uibModalInstance.close(vm.userinfo);
+      $timeout(function () {
+        $uibModalInstance.close(vm.userinfo);
+      }, 750);
     }
 
   }

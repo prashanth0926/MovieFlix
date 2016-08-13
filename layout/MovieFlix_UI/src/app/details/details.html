@@ -28,11 +28,17 @@
           </a>
         </div>
         <div class="col-lg-3">
-          <a class="row" href="http://www.imdb.com/title/{{detail.movie.imdbID}}">
-            <p class="col-sm-12">IMDb rating: <strong>{{detail.movie.imdbRating}}</strong></p>
-            <p class="col-sm-12">IMDb votes: <strong>{{detail.movie.imdbVotes}}</strong></p>
+          <!--<p class="col-sm-10 col-sm-offset-1 animated infinite" ng-class="'rubberBand'">
+            <button type="button" class="btn btn-lg btn-success" ng-click="$location.path('http://www.imdb.com/title/{{detail.movie.imdbID}}')">IMDb</button>
+          </p>-->
+          <div class="row">
+            <a class="" target="_blank" href="http://www.imdb.com/title/{{detail.movie.imdbID}}">
+              <p class="col-sm-12 animated infinite" ng-class="detail.myAnimation" ng-mouseover="detail.myAnimation = ''">IMDb rating: <strong>{{detail.movie.imdbRating}}</strong>
+              </p>
+              <p class="col-sm-12">IMDb votes: <strong>{{detail.movie.imdbVotes}}</strong></p>
+            </a>
             <p class="col-sm-12">Metascore: <strong>{{detail.movie.Metascore}}</strong></p>
-          </a>
+          </div>
         </div>
       </header>
       <article>{{detail.movie.Plot}}</article>
@@ -119,8 +125,10 @@
                   <input ng-disabled="true" class="commentText" type="text" value="{{review.comment}}"/>
                 </div>
                 <div class="col-sm-1">
-                  <i title="edit review" class="btn btn-primary glyphicon glyphicon-edit"></i>
-                  <i title="delete review" class="btn btn-danger glyphicon glyphicon-remove"></i>
+                  <button title="edit review" ng-disabled="(review.postedBy.username != detail.username)"
+                          class="btn btn-primary btn-xs glyphicon glyphicon-edit"></button>
+                  <button ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
+                          class="btn btn-danger btn-xs glyphicon glyphicon-remove"></button>
                 </div>
               </div>
               <footer>{{review.postedBy.firstname}}, {{review.updatedAt | date:'MMM. d, y'}}</footer>

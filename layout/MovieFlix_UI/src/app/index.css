@@ -265,6 +265,7 @@ figcaption {
 /** filter section */
 .countItems{
   margin: 0 10%;
+  font-size: 1.2em;
 }
 
 section.filter .btn-group {
@@ -273,7 +274,7 @@ section.filter .btn-group {
 
 section.filter .form-group {
   display: inline-block;
-  margin: 0px 3%;
+  margin: 0px 15px 0 0;
 }
 
 section.filter {
@@ -283,7 +284,7 @@ section.filter {
   background: #000000;
   position: fixed;
   width: 100%;
-  margin-left: 50px;
+  margin-left: 0px;
   z-index: 999;
 }
 
@@ -398,5 +399,5 @@ section.filter label {
 }
 
 .hoverLabel {
-  color: #000000;
+  color: #FFFFFF;
 }

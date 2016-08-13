@@ -79,9 +79,9 @@
         displayProp: 'label',
         smartButtonMaxItems: 3,
         smartButtonTextConverter: function (itemText) {
-          /*if (itemText === 'Adventure') {
-           return 'Adv';
-           }*/
+          /*if (itemText == 'Adventure' || itemText == 'Biography') {
+            return 'Adv';
+          }*/
           return itemText;
         },
         scrollableHeight: '250px',

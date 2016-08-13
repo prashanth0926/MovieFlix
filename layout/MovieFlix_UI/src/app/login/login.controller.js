@@ -47,7 +47,7 @@
       modalInstance.result.then(function () {
         /*vm.credentials.username = args.username;
         vm.credentials.password = '';*/
-        vm.cancel();
+        $uibModalInstance.close();
       }, function () {
 
       });

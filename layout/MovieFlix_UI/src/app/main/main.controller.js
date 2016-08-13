@@ -122,8 +122,8 @@
             vm.admin = auth.isAdmin();
             getMovies();
             vm.username = auth.getUsername();
+            $log.info('Logged in as ' + vm.username + ' at: ' + new Date());
           }, 500);
-          $log.info('Logged in at: ' + new Date());
         }, function () {
 
         });
