@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a ui-sref="home" class="navbar-brand"><h2><strong>MovieFlix</strong></h2></a>
+      <a ui-sref="home" ng-click="main.resetFilters()" class="navbar-brand"><h2><strong>MovieFlix</strong></h2></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse" uib-collapse="main.isCollapsed">
       <ul class="nav navbar-nav navbar-right">
@@ -23,7 +23,7 @@
           </div>
         </li>
         <li>
-          <p class="navUsername" ng-show="main.logged.value">Logged in as {{main.username}}</p>
+          <p class="navUsername" ng-show="main.logged.value">{{main.username}}</p>
         </li>
         <li>
           <a ng-click="main.pleaseLogIn = false; main.openLogin(main.logged.value);" id="loginButton">
@@ -64,6 +64,11 @@
            extra-settings="main.singleSettings" translation-texts="main.myFilts[4]"></div>
     </div>
     <div class="form-group">
+      <label for="limit" class="">Catalogs: </label>
+      <div id="limit" class="myBtns" ng-dropdown-multiselect="" options="main.limitData" selected-model="main.limitModel"
+           extra-settings="main.singleSettings" translation-texts="main.myFilts[4]"></div>
+    </div>
+    <div class="form-group">
       <button ng-click="main.resetFilters()" class="btn btn-default rstBtn">Reset Filters</button>
     </div>
   </div>
@@ -75,7 +80,7 @@
     <div class="row">
       <ul class="pageContent">
         <li class="col-sm-5 col-md-3 col-lg-2 itemList"
-            ng-repeat="movie in pageFiltered = (main.movies | filter: {Type: main.typeModel.id} | genreFilter: main.selectedGenre : 'AND' | filter: main.greaterThan('imdbRating', main.imdbModel.id) | filter: main.greaterThan('Year', main.yearModel.id)) | orderBy: [main.sortModel.id, '-imdbRating'] | startFrom:(main.currentPage - 1) * main.maxSize | limitTo: main.maxSize">
+            ng-repeat="movie in pageFiltered = (main.movies | filter: {Type: main.typeModel.id} | genreFilter: main.selectedGenre : 'AND' | filter: main.greaterThan('imdbRating', main.imdbModel.id) | filter: main.greaterThan('Year', main.yearModel.id)) | orderBy: [main.sortModel.id, '-imdbRating'] | startFrom:(main.currentPage - 1) * (main.limitModel.id) | limitTo: (main.limitModel.id)">
           <figure ng-click="main.openDetails(movie)">
             <div class="hovereffect">
               <img class="movieImage img-responsive" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
@@ -90,13 +95,13 @@
       </ul>
     </div>
 
-    <div class="row">
+    <div class="row myPagination">
       <div class="col-sm-4 pull-right">
-        <button ng-show="main.admin" ng-click="main.openAddMovie({})" class="btn btn-default addMovie">Add Movie / TV Series</button>
+        <button ng-show="main.admin" ng-click="main.openAddMovie({}, false)" class="btn btn-default addMovie">Add Movie / TV Series</button>
       </div>
       <div class="col-sm-offset-4">
         <ul ng-show="pageFiltered.length" uib-pagination total-items="pageFiltered.length"
-            ng-model="main.currentPage" items-per-page='main.itemsPerPage' max-size="main.maxSize"
+            ng-model="main.currentPage" items-per-page='(main.limitModel.id)' max-size="main.maxSize"
             class="pagination-md myPagination" boundary-links="true" rotate="false"></ul>
       </div>
     </div>

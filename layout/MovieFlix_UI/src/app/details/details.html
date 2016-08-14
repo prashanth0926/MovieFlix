@@ -1,8 +1,8 @@
 <div class="modal-header">
   <button type="button" ng-click="detail.cancel()" class="close dismissModal1">&times;</button>
   <div ng-show="detail.admin">
-    <i title="edit movie / tv series" class="btn btn-primary glyphicon glyphicon-edit"></i>
-    <i title="delete movie / tv series" class="btn btn-danger glyphicon glyphicon-remove"></i>
+    <i ng-click="detail.editItem()" title="edit movie / tv series" class="btn btn-primary glyphicon glyphicon-edit"></i>
+    <i ng-click="detail.deleteItem()" title="delete movie / tv series" class="btn btn-danger glyphicon glyphicon-remove"></i>
   </div>
 </div>
 <div class="modal-body">
@@ -101,19 +101,28 @@
         </tr>
       </table>
       <div class="reviews">
-
+        <div class="">
+        <p class="">Average rating:
+        <span class="rtngBar" uib-rating ng-model="detail.averageRating" max=5 read-only="true"
+              enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
+        <span class="label hoverLabel"
+              ng-class="{'label-danger': detail.averageRating<2, 'label-warning': detail.averageRating>=2 && detail.averageRating<3,
+                    'label-info': detail.averageRating>=3 && detail.averageRating<4, 'label-success': detail.averageRating>=4}"
+              ng-show="true">{{detail.rtngText(detail.averageRating)}}</span>
+          </p>
+          </div>
         <fieldset>
           <legend>
             Reviews:
             <label class="srt" for="srt1">Sort by: </label>
             <select id="srt1" ng-model='detail.srtText' name="srtTxt">
               <option value="author">author</option>
-              <option value="date">date</option>
-              <option value="rating">rating</option>
+              <option value="-date">date</option>
+              <option value="-rating">rating</option>
             </select>
           </legend>
           <div>
-            <blockquote ng-repeat="review in detail.movie.Reviews | orderBy:srtText">
+            <blockquote ng-repeat="review in detail.movie.Reviews | orderBy:detail.srtText">
               <div class="row">
                 <div class="col-sm-4">
               <span class="rtngBar" uib-rating ng-model="review.rating" max=5 read-only="true"

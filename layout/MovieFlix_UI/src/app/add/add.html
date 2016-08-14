@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" ng-click="add.cancel()" class="close dismissModal1">&times;</button>
-  <h4 class="modal-title">Add Movie / TV Series </h4>
+  <h4 class="modal-title">{{add.modalTitle}}</h4>
 </div>
 <div class="modal-body">
   <form class="form-horizontal" name="addItemForm" ng-submit="" autocomplete="off">
@@ -9,12 +9,12 @@
       <label for="title" class="control-label col-md-3">Title</label>
       <div class="col-md-6">
         <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title"
-               ng-model="add.movieItem.Title" required ng-pattern="/^[a-zA-Z0-9\-\ ]*$/">
+               ng-model="add.movieItem.Title" required ng-pattern="/^[a-zA-Z0-9\-\': ]*$/">
         <span
           ng-show="(addItemForm.title.$error.required || addItemForm.title.$error.pattern) && !addItemForm.title.$pristine"
           class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
         <span ng-show="addItemForm.title.$error.required && !addItemForm.title.$pristine" class="help-block">Title is required.</span>
-        <span ng-show="addItemForm.title.$error.pattern && !addItemForm.title.$pristine" class="help-block">Title must only contain alphanumerics and hyphens</span>
+        <span ng-show="addItemForm.title.$error.pattern && !addItemForm.title.$pristine" class="help-block">Title must not contain any special characters</span>
       </div>
     </div>
 
@@ -38,7 +38,7 @@
       <div class="col-md-6">
         <div class="input-group">
           <input type="text" id="released" name="released" class="form-control" uib-datepicker-popup="dd MMM yyyy"
-                 is-open="popDatepicker" ng-focus="popDatepicker = !popDatePicker" ng-model="add.movieItem.Released"
+                 is-open="popDatepicker" ng-focus="popDatepicker = !popDatePicker" ng-model="add.releasedDate" ng-change="add.releaseDateChange()"
                  datepicker-options="add.dateOptions" ng-required="true" close-text="Close" required />
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="popDatepicker = !popDatePicker"><i
@@ -54,10 +54,10 @@
 
     <div class="form-group"
          ng-class="{'has-error has-feedback' : (addItemForm.runtime.$error.required || addItemForm.runtime.$error.pattern) && !addItemForm.runtime.$pristine }">
-      <label for="runtime" class="control-label col-md-3">Rated</label>
+      <label for="runtime" class="control-label col-md-3">Runtime</label>
       <div class="col-md-6">
         <input type="text" class="form-control" id="runtime" name="runtime" placeholder="Enter Runtime in mins"
-               ng-model="add.runTime" required ng-pattern="/^[0-9]*$/" />
+               ng-model="add.runTime" ng-change="add.movieItem.Runtime = add.runTime+' mins'" required ng-pattern="/^[0-9]*$/" />
         <span
           ng-show="(addItemForm.runtime.$error.required || addItemForm.runtime.$error.pattern) && !addItemForm.runtime.$pristine"
           class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -85,7 +85,7 @@
       <label for="director" class="control-label col-md-3">Director</label>
       <div class="col-md-6">
         <input type="text" class="form-control" id="director" name="director" placeholder="Enter Director name"
-               ng-model="add.movieItem.Director" required ng-pattern="/^[a-zA-Z ,.]*$/">
+               ng-model="add.movieItem.Director" required />
         <span
           ng-show="(addItemForm.director.$error.required || addItemForm.director.$error.pattern) && !addItemForm.director.$pristine"
           class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -99,7 +99,7 @@
       <label for="writer" class="control-label col-md-3">Writer</label>
       <div class="col-md-6">
         <input type="text" class="form-control" id="writer" name="writer" placeholder="Enter Writer name"
-               ng-model="add.movieItem.Writer" required ng-pattern="/^[a-zA-Z ,.]*$/">
+               ng-model="add.movieItem.Writer" required />
         <span
           ng-show="(addItemForm.writer.$error.required || addItemForm.writer.$error.pattern) && !addItemForm.writer.$pristine"
           class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -113,26 +113,164 @@
       <label for="actors" class="control-label col-md-3">Actors</label>
       <div class="col-md-6">
         <input type="text" class="form-control" id="actors" name="actors" placeholder="Enter Actors names"
-               ng-model="add.movieItem.Actors" required ng-pattern="/^[a-zA-Z ,.]*$/">
+               ng-model="add.movieItem.Actors" required />
         <span
           ng-show="(addItemForm.actors.$error.required || addItemForm.actors.$error.pattern) && !addItemForm.actors.$pristine"
           class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-        <span ng-show="addItemForm.actors.$error.required && !addItemForm.actors.$pristine" class="help-block">Enter N/A if no actors</span>
+        <span ng-show="addItemForm.actors.$error.required && !addItemForm.actors.$pristine" class="help-block">Actors names are required</span>
         <span ng-show="addItemForm.actors.$error.pattern && !addItemForm.actors.$pristine" class="help-block">Actors names must only contain alphabets and must be seperated with a comma</span>
       </div>
     </div>
 
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.plot.$error.required || addItemForm.plot.$error.pattern) && !addItemForm.plot.$pristine }">
+      <label for="plot" class="control-label col-md-3">Plot</label>
+      <div class="col-md-6">
+        <textarea rows="2" class="form-control" id="plot" name="plot" placeholder="Enter plot"
+               ng-model="add.movieItem.Plot" required></textarea>
+        <span
+          ng-show="(addItemForm.plot.$error.required || addItemForm.plot.$error.pattern) && !addItemForm.plot.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.plot.$error.required && !addItemForm.plot.$pristine" class="help-block">Plot is required</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.language.$error.required || addItemForm.language.$error.pattern) && !addItemForm.language.$pristine }">
+      <label for="language" class="control-label col-md-3">Language</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="language" name="language" placeholder="Enter language"
+               ng-model="add.movieItem.Language" required ng-pattern="/^[a-zA-Z ,.]*$/">
+        <span
+          ng-show="(addItemForm.language.$error.required || addItemForm.language.$error.pattern) && !addItemForm.language.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.language.$error.required && !addItemForm.language.$pristine" class="help-block">Language is required</span>
+        <span ng-show="addItemForm.language.$error.pattern && !addItemForm.language.$pristine" class="help-block">Languages must only contain alphabets and must be seperated with a comma</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.country.$error.required || addItemForm.country.$error.pattern) && !addItemForm.country.$pristine }">
+      <label for="actors" class="control-label col-md-3">Country</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="country" name="country" placeholder="Enter country"
+               ng-model="add.movieItem.Country" required ng-pattern="/^[a-zA-Z ,.]*$/">
+        <span
+          ng-show="(addItemForm.country.$error.required || addItemForm.country.$error.pattern) && !addItemForm.country.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.country.$error.required && !addItemForm.country.$pristine" class="help-block">Country is required</span>
+        <span ng-show="addItemForm.country.$error.pattern && !addItemForm.country.$pristine" class="help-block">Country names must only contain alphabets and must be seperated with a comma</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.awards.$error.required || addItemForm.awards.$error.pattern) && !addItemForm.awards.$pristine }">
+      <label for="awards" class="control-label col-md-3">Awards</label>
+      <div class="col-md-6">
+        <input class="form-control" id="awards" name="awards" placeholder="Enter awards" ng-model="add.movieItem.Awards" required />
+        <span
+          ng-show="(addItemForm.awards.$error.required || addItemForm.awards.$error.pattern) && !addItemForm.awards.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.awards.$error.required && !addItemForm.awards.$pristine" class="help-block">Enter N/A if no awards</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.poster.$error.required || addItemForm.poster.$error.pattern) && !addItemForm.poster.$pristine }">
+      <label for="poster" class="control-label col-md-3">Poster</label>
+      <div class="col-md-6">
+        <input class="form-control" id="poster" name="poster" placeholder="Enter poster url" ng-model="add.movieItem.Poster" required />
+        <span
+          ng-show="(addItemForm.poster.$error.required || addItemForm.poster.$error.pattern) && !addItemForm.poster.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.poster.$error.required && !addItemForm.poster.$pristine" class="help-block">Poster url is required</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.metascore.$error.required || addItemForm.metascore.$error.pattern) && !addItemForm.metascore.$pristine }">
+      <label for="metascore" class="control-label col-md-3">Metascore</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="metascore" name="metascore" placeholder="Enter Metascore"
+               ng-model="add.movieItem.Metascore" required ng-pattern="/^[0-9\/\NA]*$/" />
+        <span
+          ng-show="(addItemForm.metascore.$error.required || addItemForm.metascore.$error.pattern) && !addItemForm.metascore.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.metascore.$error.required && !addItemForm.metascore.$pristine" class="help-block">Enter N/A if Metascore is not avilable</span>
+        <span ng-show="addItemForm.metascore.$error.pattern && !addItemForm.metascore.$pristine" class="help-block">Metascore must only contain numbers</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.imdbRating.$error.required || addItemForm.imdbRating.$error.pattern) && !addItemForm.imdbRating.$pristine }">
+      <label for="imdbRating" class="control-label col-md-3">IMDb Rating</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="imdbRating" name="imdbRating" placeholder="Enter IMDb Rating"
+               ng-model="add.movieItem.imdbRating" required ng-pattern="/^[0-9\/\.NA]*$/" />
+        <span
+          ng-show="(addItemForm.imdbRating.$error.required || addItemForm.imdbRating.$error.pattern) && !addItemForm.imdbRating.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.imdbRating.$error.required && !addItemForm.imdbRating.$pristine" class="help-block">Enter N/A if IMDb Rating is not avilable</span>
+        <span ng-show="addItemForm.imdbRating.$error.pattern && !addItemForm.imdbRating.$pristine" class="help-block">IMDb Rating must only contain numbers</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.imdbVotes.$error.required || addItemForm.imdbVotes.$error.pattern) && !addItemForm.imdbVotes.$pristine }">
+      <label for="imdbVotes" class="control-label col-md-3">IMDb Votes</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="imdbVotes" name="imdbVotes" placeholder="Enter IMDb Votes"
+               ng-model="add.movieItem.imdbVotes" required ng-pattern="/^[0-9\/\NA,]*$/" />
+        <span
+          ng-show="(addItemForm.imdbVotes.$error.required || addItemForm.imdbVotes.$error.pattern) && !addItemForm.imdbVotes.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.imdbVotes.$error.required && !addItemForm.imdbVotes.$pristine" class="help-block">Enter N/A if IMDb Votes is not avilable</span>
+        <span ng-show="addItemForm.imdbVotes.$error.pattern && !addItemForm.imdbVotes.$pristine" class="help-block">IMDb Votes must only contain numbers and commas</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.imdbID.$error.required || addItemForm.imdbID.$error.pattern) && !addItemForm.imdbID.$pristine }">
+      <label for="imdbID" class="control-label col-md-3">IMDb ID</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="imdbID" name="imdbID" placeholder="Enter IMDb ID"
+               ng-model="add.movieItem.imdbID" required ng-pattern="/^[a-zA-Z0-9\/\NA]*$/" />
+        <span
+          ng-show="(addItemForm.imdbID.$error.required || addItemForm.imdbID.$error.pattern) && !addItemForm.imdbID.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.imdbID.$error.required && !addItemForm.imdbID.$pristine" class="help-block">Enter N/A if IMDb ID is not avilable</span>
+        <span ng-show="addItemForm.imdbID.$error.pattern && !addItemForm.imdbID.$pristine" class="help-block">IMDb ID must only contain alphanumerics</span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         ng-class="{'has-error has-feedback' : (addItemForm.type.$error.required || addItemForm.type.$error.pattern) && !addItemForm.type.$pristine }">
+      <label for="type" class="control-label col-md-3">Type</label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="type" name="type" placeholder="Enter Type"
+               ng-model="add.movieItem.Type" required ng-pattern="/^[(movie | series)]*$/" />
+        <span
+          ng-show="(addItemForm.type.$error.required || addItemForm.type.$error.pattern) && !addItemForm.type.$pristine"
+          class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <span ng-show="addItemForm.type.$error.required && !addItemForm.type.$pristine" class="help-block">Type is required</span>
+        <span ng-show="addItemForm.type.$error.pattern && !addItemForm.type.$pristine" class="help-block">movie or series</span>
+      </div>
+    </div>
+
     <div class="row modalBtns">
-      <div class="col-sm-2">
+      <div class="col-md-1 col-md-offset-3">
         <div class="form-group">
-          <button ng-click="register.sendRegister()" ng-disabled="addItemForm.$invalid"
-                  class="btn btn-info btn-sm margin-top2" type="submit">Register
+          <button ng-if="!add.editFlag" ng-click="add.addItem()" ng-disabled="addItemForm.$invalid"
+                  class="btn btn-info btn-sm margin-top2" type="submit">Add
+          </button>
+          <button ng-if="add.editFlag" ng-click="add.saveItem()" ng-disabled="addItemForm.$invalid"
+                  class="btn btn-info btn-sm margin-top2" type="submit">Save
           </button>
         </div>
       </div>
-      <div class="col-sm-2">
+      <div class="col-md-2">
         <div class="form-group">
-          <button type="button" ng-click="register.cancel()" class="btn btn-default btn-sm margin-top2 dismissModal1">
+          <button type="button" ng-click="add.cancel()" class="btn btn-default btn-sm margin-top2 dismissModal1">
             Cancel
           </button>
         </div>

@@ -33,12 +33,12 @@
         {id: 2, label: "Above 2"}
       ],
       yearData: [
-        {id: 2015, label: "2016"},
-        {id: 2010, label: "Above 2010"},
-        {id: 2000, label: "Above 2000"},
-        {id: 1990, label: "Above 1990"},
-        {id: 1960, label: "Above 1960"},
-        {id: 1900, label: "Above 1900"}
+        {id: 2015, label: "2015 and above"},
+        {id: 2010, label: "2010 and above"},
+        {id: 2000, label: "2000 and above"},
+        {id: 1990, label: "1990 and above"},
+        {id: 1960, label: "1960 and above"},
+        {id: 1900, label: "1900 and above"}
       ],
       genreData: [
         {id: "Action", label: "Action"},
@@ -65,6 +65,12 @@
         {id: '-imdbRating', label: "IMDb rating"},
         {id: '-imdbVotes', label: "IMDb votes"},
         {id: '-Year', label: "Year"}
+      ],
+      limitData: [
+        {id: 5, label: "5 per page"},
+        {id: 10, label: "10 per page"},
+        {id: 25, label: "25 per page"},
+        {id: 50, label: "50 per page"}
       ]
     };
     var settingsData = {

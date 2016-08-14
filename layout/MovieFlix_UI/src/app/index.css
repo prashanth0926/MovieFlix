@@ -67,7 +67,7 @@ figcaption {
 
 .itemList img.movieImage {
   width: 100%;
-  height: auto;
+  height: 450px;
 }
 
 .itemList {
@@ -299,6 +299,10 @@ section.filter label {
   overflow: auto !important;
 }
 
+.myPagination{
+  position: relative;
+}
+
 /** modals */
 .app-modal-details-window .modal-dialog {
   min-width: 80%;
@@ -366,6 +370,7 @@ section.filter label {
   width: 60%;
   overflow-x: hidden;
   overflow-y: auto;
+  height: 815px;
 }
 
 .dtlCnt table {

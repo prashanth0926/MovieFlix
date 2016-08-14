@@ -32,13 +32,14 @@
 
     /** drop down filters */
     vm.myFilts = dropDownData.getButtonTexts();
-    vm.typeModel = {id: 'i'}, vm.imdbModel = {id: 2}, vm.yearModel = {id: 1900}, vm.genreModel = [], vm.sortModel = {id: '-imdbRating'};
+    vm.typeModel = {id: 'i'}, vm.imdbModel = {id: 2}, vm.yearModel = {id: 1900}, vm.genreModel = [], vm.sortModel = {id: '-imdbRating'}, vm.limitModel = {id: 10};
     var optionsData = dropDownData.getOptionsData();
     vm.typeData = optionsData.typeData;
     vm.imdbData = optionsData.imdbData;
     vm.yearData = optionsData.yearData;
     vm.genreData = optionsData.genreData;
     vm.sortData = optionsData.sortData;
+    vm.limitData = optionsData.limitData;
     var settingsData = dropDownData.getSettingsData();
     vm.singleSettings = settingsData.singleSettings;
     vm.genreSettings = settingsData.genreSettings;
@@ -51,7 +52,7 @@
 
     /** pagination */
     vm.currentPage = 1;
-    vm.itemsPerPage = 5;
+    vm.itemsPerPage = 10;
     vm.maxSize = 5;
 
     function getMovies() {
@@ -90,13 +91,14 @@
     }
 
     function resetFilters() {
-      vm.typeModel = {id: 'i'}, vm.imdbModel = {id: 2}, vm.yearModel = {id: 1900}, vm.genreModel = [], vm.sortModel = {id: '-imdbRating'};
+      vm.typeModel = {id: 'i'}, vm.imdbModel = {id: 2}, vm.yearModel = {id: 1900}, vm.genreModel = [], vm.sortModel = {id: '-imdbRating'}, vm.limitModel = {id: 10};
       vm.selectedGenre = '';
     }
 
     function openLogin(val) {
       if (val) {
         auth.logout();
+        resetFilters();
         vm.logged = {text: "Login", icon: "in", value: false};
         vm.admin = false;
         getMovies();
@@ -143,7 +145,10 @@
             movie: movie
           }
         });
-        modalInstance.result.then(function () {
+        modalInstance.result.then(function (args) {
+          if(!args.delFlag && (args.movie.Title != undefined)) {
+            openAddMovie(movie, true);
+          }
           getMovies();
         }, function () {
 
@@ -154,7 +159,7 @@
       }
     }
 
-    function openAddMovie(movie) {
+    function openAddMovie(movie, flag) {
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'app/add/add.html',
@@ -163,13 +168,14 @@
         windowClass: 'app-modal-add-window',
         size: "lg",
         resolve: {
-          movie: movie
+          movie: movie,
+          editFlag: flag
         }
       });
       modalInstance.result.then(function () {
-        $log.log("movie added");
+        getMovies();
       }, function () {
-        $log.log("add movie modal closed");
+
       });
     }
 

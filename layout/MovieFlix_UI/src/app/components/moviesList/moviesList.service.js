@@ -191,19 +191,21 @@
     }
 
     function getApiMovies() {
-      return $resource(api + "movies/:id", {
-        'update': {
-          method: 'PUT'
-        }
-      });
+      return $resource(api + "movies/:id", null,
+        {
+          'update': {
+            method: 'PUT'
+          }
+        });
     }
 
     function getReviews() {
-      return $resource(api + 'movies/:id/reviews/:reviewId', null, {
-        'update': {
-          method: 'PUT'
-        }
-      });
+      return $resource(api + 'movies/:id/reviews/:reviewId', null,
+        {
+          'update': {
+            method: 'PUT'
+          }
+        });
     }
 
   }
