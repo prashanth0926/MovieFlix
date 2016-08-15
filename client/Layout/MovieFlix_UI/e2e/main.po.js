@@ -6,9 +6,10 @@
 'use strict';
 
 var MainPage = function() {
-  this.navBar = element(by.css('nav'));
-  this.brand = this.navBar.element(by.css('.navbar-brand'));
-  this.login = this.navBar.element(by.css('#loginButton'));
+  this.jumbEl = element(by.css('.jumbotron'));
+  this.h1El = this.jumbEl.element(by.css('h1'));
+  this.imgEl = this.jumbEl.element(by.css('img'));
+  this.thumbnailEls = element(by.css('body')).all(by.repeater('awesomeThing in main.awesomeThings'));
 };
 
 module.exports = new MainPage();

@@ -3,6 +3,6 @@
 
   angular
     .module('movieFlixUi')
-    .constant('api', 'http://localhost:3000/');
+    .constant('api', 'http://localhost:3000/api/');
 
 })();

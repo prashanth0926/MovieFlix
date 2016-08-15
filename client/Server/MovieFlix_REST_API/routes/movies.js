@@ -83,7 +83,7 @@ movieRouter.route('/:Id/reviews')
     .post(verify.verifyOrdinaryUser, function (req, res, next) {
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
-            req.body.postedBy = req.decoded._doc._id;
+            req.body.postedBy = req.decoded._id;
             out.Reviews.push(req.body);
             out.save(function (err, out) {
                 if (err)    throw err;
@@ -121,13 +121,13 @@ movieRouter.route('/:Id/reviews/:reviewId')
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
             if (out.Reviews.id(req.params.reviewId).postedBy
-                != req.decoded._doc._id) {
+                != req.decoded._id) {
                 var err = new Error('You are not authorized to perform this operation!');
                 err.status = 403;
                 return next(err);
             }
             out.Reviews.id(req.params.reviewId).remove();
-            req.body.postedBy = req.decoded._doc._id;
+            req.body.postedBy = req.decoded._id;
             out.Reviews.push(req.body);
             out.save(function (err, out) {
                 if (err)    throw err;
@@ -142,7 +142,7 @@ movieRouter.route('/:Id/reviews/:reviewId')
         Movies.findById(req.params.Id, function (err, out) {
             if (err)    throw err;
             if (out.Reviews.id(req.params.reviewId).postedBy
-                != req.decoded._doc._id) {
+                != req.decoded._id) {
                 var err = new Error('You are not authorized to perform this operation!');
                 err.status = 403;
                 return next(err);

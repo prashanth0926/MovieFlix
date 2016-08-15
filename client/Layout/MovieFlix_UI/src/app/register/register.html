@@ -3,6 +3,7 @@
   <h4 class="modal-title">Register </h4>
 </div>
 <div class="modal-body">
+  <p ng-show="register.invalidate" class="loginError">User already exists...</p>
   <form class="" name="registerForm" ng-submit="" autocomplete="off">
     <div class="form-group"
          ng-class="{'has-error has-feedback' : (registerForm.firstname.$error.required || registerForm.firstname.$error.pattern) && !registerForm.firstname.$pristine }">
@@ -19,7 +20,7 @@
          ng-class="{'has-error has-feedback' : (registerForm.lastname.$error.required || registerForm.lastname.$error.pattern) && !registerForm.lastname.$pristine}">
       <label for="lastname" class="control-label">Last Name</label>
       <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Last Name"
-             ng-model="register.useinfo.lastname" required ng-pattern="/^[a-zA-Z ]*$/">
+             ng-model="register.userinfo.lastname" required ng-pattern="/^[a-zA-Z ]*$/">
       <span
         ng-show="(registerForm.lastname.$error.required || registerForm.lastname.$error.pattern) && !registerForm.lastname.$pristine"
         class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -30,19 +31,19 @@
          ng-class="{ 'has-error has-feedback' : registerForm.emailid.$invalid && !registerForm.emailid.$pristine }">
       <label for="emailid" class="control-label">Email address</label>
       <input type="email" class="form-control" id="emailid" name="emailid" placeholder="Email"
-             ng-model="register.userinfo.username" required>
+             ng-model="register.userinfo.username" ng-change="register.invalidate = false" required>
       <span ng-show="registerForm.emailid.$invalid && registerForm.emailid.$dirty"
             class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
       <span
         ng-show="(registerForm.emailid.$invalid || registerForm.emailid.$error.required) && !registerForm.emailid.$pristine"
         class="help-block">Enter valid email</span>
     </div>
-    <div class="form-group" ng-class="">
+    <div class="form-group" ng-class="{ 'has-error has-feedback' : (registerForm.password.$error.required || registerForm.password.$error.pattern) && !registerForm.password.$pristine }">
       <label for="password" class="control-label">Password</label>
       <input class="form-control" type="password" name="password" id="password" ng-model="register.userinfo.password"
-             placeholder="Password" required>
-      <span ng-show="" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-      <span ng-show="" class="help-block">Invalid password</span>
+             placeholder="Password" required ng-pattern="/^[a-zA-Z0-9]{8,}$/">
+      <span ng-show="(registerForm.password.$error.required || registerForm.password.$error.pattern) && !registerForm.password.$pristine" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+      <span ng-show="(registerForm.password.$error.required || registerForm.password.$error.pattern) && !registerForm.password.$pristine" class="help-block">Password must be minimum 8 characters in length and can contain only alphanumerics</span>
     </div>
     <div class="row modalBtns">
       <div class="col-sm-2">

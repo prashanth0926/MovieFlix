@@ -20,12 +20,13 @@
         </div>
       </div>
       <div class="col-sm-4 col-sm-offset-1">
-        <div class="form-group" ng-class="{ 'has-error has-feedback' : login.loginValidate }">
+        <div class="form-group" ng-class="{ 'has-error has-feedback' : (login.loginValidate || ((loginForm.password.$error.required || loginForm.password.$error.pattern) && !loginForm.password.$pristine)) }">
           <label class="sr-only" for="password">Password</label>
           <input class="form-control" type="password" name="password" id="password"
-                 ng-model="login.credentials.password" placeholder="Password" required>
-          <span ng-show="login.loginValidate" class="glyphicon glyphicon-remove form-control-feedback"
+                 ng-model="login.credentials.password" placeholder="Password" required ng-pattern="/^[a-zA-Z0-9]{8,}$/">
+          <span ng-show="(login.loginValidate || ((loginForm.password.$error.required || loginForm.password.$error.pattern) && !loginForm.password.$pristine))" class="glyphicon glyphicon-remove form-control-feedback"
                 aria-hidden="true"></span>
+          <span ng-show="(loginForm.password.$error.required || loginForm.password.$error.pattern) && !loginForm.password.$pristine" class="help-block">Invalid password</span>
           <span ng-show="login.loginValidate" class="help-block">Invalid emailid or password</span>
         </div>
       </div>

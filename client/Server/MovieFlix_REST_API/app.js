@@ -50,9 +50,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/movies', movies);
+app.use('/api/', routes);
+app.use('/api/users', users);
+app.use('/api/movies', movies);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
