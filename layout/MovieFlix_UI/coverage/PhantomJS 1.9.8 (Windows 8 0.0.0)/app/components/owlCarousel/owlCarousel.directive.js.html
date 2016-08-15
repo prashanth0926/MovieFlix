@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app\components\owlCarousel\owlCarousel.directive.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">all files</a> / <a href="index.html">app/components/owlCarousel/</a> owlCarousel.directive.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.69% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>3/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.69% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>3/39</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Created by Prashanth Molakala on 8/8/2016.
+ */
+&nbsp;
+(function () {
+  'use strict';
+&nbsp;
+  angular
+    .module('movieFlixUi')
+    .directive('owlCarousel', owlCarousel);
+&nbsp;
+  /** @ngInject */
+<span class="fstat-no" title="function not covered" >  function owlCarousel() {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      restrict: 'E',
+      transclude: false,
+      link: <span class="fstat-no" title="function not covered" >function (scope) {</span>
+<span class="cstat-no" title="statement not covered" >        var myFlag = false;</span>
+<span class="cstat-no" title="statement not covered" >        scope.getFlag = <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >          return myFlag;</span>
+        };
+<span class="cstat-no" title="statement not covered" >        scope.destroyCarousel = <span class="fstat-no" title="function not covered" >function (element) {</span></span>
+<span class="cstat-no" title="statement not covered" >          var owl = angular.element(element);</span>
+          //destroy carousel
+          //owl.owlCarousel();
+          //owl.data('owlCarousel').destroy();
+          //owl.owlCarousel();
+<span class="cstat-no" title="statement not covered" >          owl.data('owlCarousel').destroy();</span>
+        };
+<span class="cstat-no" title="statement not covered" >        scope.reinitCarousel = <span class="fstat-no" title="function not covered" >function (element) {</span></span>
+<span class="cstat-no" title="statement not covered" >          var owl = angular.element(element);</span>
+          //reinit carousel
+          //owl.owlCarousel();
+<span class="cstat-no" title="statement not covered" >          owl.owlCarousel();</span>
+        };
+<span class="cstat-no" title="statement not covered" >        scope.initCarousel = <span class="fstat-no" title="function not covered" >function (element) {</span></span>
+<span class="cstat-no" title="statement not covered" >          myFlag = true;</span>
+          // provide any default options you want
+<span class="cstat-no" title="statement not covered" >          var defaultOptions = {</span>
+            items: 6,
+            autoPlay: 6000,
+            lazyLoad: true,
+            stopOnHover: true,
+            afterAction: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >              if</span>
+              (this.itemsAmount &gt; this.visibleItems.length) {
+<span class="cstat-no" title="statement not covered" >                angular.element('.next').show();</span>
+<span class="cstat-no" title="statement not covered" >                angular.element('.prev').show();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                angular.element('.next').removeClass('disabled');</span>
+<span class="cstat-no" title="statement not covered" >                angular.element('.prev').removeClass('disabled');</span>
+<span class="cstat-no" title="statement not covered" >                if (this.currentItem == 0) {</span>
+<span class="cstat-no" title="statement not covered" >                  angular.element('.prev').addClass('disabled');</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (this.currentItem == this.maximumItem) {</span>
+<span class="cstat-no" title="statement not covered" >                  angular.element('.next').addClass('disabled');</span>
+<span class="cstat-no" title="statement not covered" >                  if ((angular.element('#loginButton').text().trim() === "Login") &amp;&amp; !(angular.element('.app-modal-login-window').hasClass('in'))) {</span>
+<span class="cstat-no" title="statement not covered" >                    angular.element("#loginButton1").trigger('click');</span>
+                  }
+                }
+&nbsp;
+              } else {
+<span class="cstat-no" title="statement not covered" >                angular.element('.next').hide();</span>
+<span class="cstat-no" title="statement not covered" >                angular.element('.prev').hide();</span>
+              }
+            }
+          };
+<span class="cstat-no" title="statement not covered" >          var customOptions = scope.$eval(angular.element(element).attr('data-options'));</span>
+          // combine the two options objects
+<span class="cstat-no" title="statement not covered" >          for (var key in customOptions) {</span>
+<span class="cstat-no" title="statement not covered" >            defaultOptions[key] = customOptions[key];</span>
+          }
+          // init carousel
+<span class="cstat-no" title="statement not covered" >          var owl = angular.element(element);</span>
+<span class="cstat-no" title="statement not covered" >          owl.owlCarousel();</span>
+          //owl.data('owlCarousel').destroy();
+<span class="cstat-no" title="statement not covered" >          owl.owlCarousel(defaultOptions);</span>
+          //owl.data('owlCarousel').reinit();
+&nbsp;
+          //angular.element('.dropdown-menu-form')
+<span class="cstat-no" title="statement not covered" >          angular.element(".prev").click(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            owl.trigger('owl.prev');</span>
+          });
+<span class="cstat-no" title="statement not covered" >          angular.element(".next").click(<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            owl.trigger('owl.next');</span>
+          });
+        };
+      }
+    };
+  }
+&nbsp;
+})();
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Aug 11 2016 12:26:22 GMT-0500 (Central Daylight Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
