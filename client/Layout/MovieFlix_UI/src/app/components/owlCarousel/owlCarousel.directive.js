@@ -15,15 +15,9 @@
       restrict: 'E',
       transclude: false,
       link: function (scope) {
-        var myFlag = false;
-        scope.getFlag = function () {
-          return myFlag;
-        };
         scope.destroyCarousel = function (element) {
           var owl = angular.element(element);
           //destroy carousel
-          //owl.owlCarousel();
-          //owl.data('owlCarousel').destroy();
           //owl.owlCarousel();
           owl.data('owlCarousel').destroy();
         };
@@ -31,37 +25,30 @@
           var owl = angular.element(element);
           //reinit carousel
           //owl.owlCarousel();
-          owl.owlCarousel();
+          owl.data('owlCarousel').reinitCarousel(element);
         };
         scope.initCarousel = function (element) {
-          myFlag = true;
           // provide any default options you want
           var defaultOptions = {
             items: 6,
-            autoPlay: 6000,
             lazyLoad: true,
-            stopOnHover: true,
-            afterAction: function () {
-              if
-              (this.itemsAmount > this.visibleItems.length) {
-                angular.element('.next').show();
-                angular.element('.prev').show();
-
-                angular.element('.next').removeClass('disabled');
-                angular.element('.prev').removeClass('disabled');
-                if (this.currentItem == 0) {
-                  angular.element('.prev').addClass('disabled');
-                }
-                if (this.currentItem == this.maximumItem) {
-                  angular.element('.next').addClass('disabled');
-                  if ((angular.element('#loginButton').text().trim() === "Login") && !(angular.element('.app-modal-login-window').hasClass('in'))) {
-                    angular.element("#loginButton1").trigger('click');
-                  }
-                }
-
-              } else {
-                angular.element('.next').hide();
-                angular.element('.prev').hide();
+            autoplay: true,
+            autoplayHoverPause: true,
+            autoplaySpeed: 4000,
+            loop: false,
+            responsiveClass: true,
+            responsive: {
+              0: {
+                items: 1
+              },
+              600: {
+                items: 3
+              },
+              1000: {
+                items: 4
+              },
+              1300: {
+                items: 6
               }
             }
           };
@@ -72,18 +59,26 @@
           }
           // init carousel
           var owl = angular.element(element);
-          owl.owlCarousel();
-          //owl.data('owlCarousel').destroy();
           owl.owlCarousel(defaultOptions);
-          //owl.data('owlCarousel').reinit();
 
-          //angular.element('.dropdown-menu-form')
           angular.element(".prev").click(function () {
-            owl.trigger('owl.prev');
+            owl.trigger('prev.owl.carousel', [500]);
           });
           angular.element(".next").click(function () {
-            owl.trigger('owl.next');
+            owl.trigger('next.owl.carousel',[500]);
           });
+
+          owl.on('changed.owl.carousel',function (event) {
+            angular.element('.next').removeClass('disabled');
+            angular.element('.prev').removeClass('disabled');
+            if (event.item.index == 0){
+              angular.element('.prev').addClass('disabled');
+            }
+            if (event.page.index == (event.page.count-1)){
+              angular.element('.next').addClass('disabled');
+            }
+          });
+
         };
       }
     };

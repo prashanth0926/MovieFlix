@@ -100,6 +100,29 @@ figcaption {
   margin-left: 35px;
 }
 
+/** recommended section */
+section.recomended{
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-top: 150px;
+}
+section.recomended header{
+  color: #FFFFFF;
+  font-family: Calibri;
+  font-weight: bold;
+  font-size: medium;
+}
+
+/** footer */
+.copyright-footer{
+  margin-top: 100px;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: Calibri;
+  font-weight: bold;
+  font-size: medium;
+}
+
 /** image hover */
 .hovereffect {
   width: 100%;

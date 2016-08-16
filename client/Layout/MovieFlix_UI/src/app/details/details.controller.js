@@ -27,14 +27,83 @@
     vm.clickText = 'Excellent!';
     vm.rtngText = rtngText;
     vm.myAnimation = 'rubberBand';
-    vm.averageRating = averageRating();
     vm.editItem = editItem;
     vm.deleteItem = deleteItem;
+    vm.editReview = editReview;
+    vm.deleteReview = deleteReview;
+    vm.deleteAllReviews = deleteAllReviews;
+    vm.updateReview = updateReview;
+    vm.editFlags = [];
+    vm.updateMyReview = [];
+    vm.averageRating = averageRating();
+
+    function editReview(index) {
+      vm.editFlags[index] = true;
+    }
+
+    function deleteReview(index, reviewId) {
+      ngDialog.openConfirm({
+        template:'\
+                <p>Confirm delete?</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary btn btn-default" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" class="ngdialog-button ngdialog-button-danger btn btn-danger" ng-click="confirm(1)">Yes</button>\
+                </div>',
+        plain: true
+      }).then(function () {
+        movies.getReviews()
+          .delete({id: movie._id, reviewId: reviewId},
+            function () {
+
+            }, function () {
+              $log.error('Review deletion failed');
+            });
+        vm.movie.Reviews.splice(index, 1);
+        vm.editFlags.splice(index, 1);
+        vm.averageRating = averageRating();
+      });
+    }
+
+    function deleteAllReviews() {
+      ngDialog.openConfirm({
+        template:'\
+                <p>Confirm delete?</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary btn btn-default" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" class="ngdialog-button ngdialog-button-danger btn btn-danger" ng-click="confirm(1)">Yes</button>\
+                </div>',
+        plain: true
+      }).then(function () {
+        movies.getReviews()
+          .delete({id: movie._id},
+            function () {
+
+            }, function () {
+              $log.error('Reviews deletion failed');
+            });
+        vm.movie.Reviews = [];
+        vm.editFlags = [];
+        vm.averageRating = averageRating();
+      });
+    }
+
+    function updateReview(index, reviewId) {
+      movies.getReviews()
+        .update({id: movie._id, reviewId: reviewId}, vm.updateMyReview[index],
+          function () {
+            vm.updateMyReview[index] = {};
+          }, function () {
+            $log.error('Review update failed');
+          });
+      vm.averageRating = averageRating();
+      vm.editFlags[index] = false;
+    }
 
     function averageRating() {
       var tRating = 0;
       for (var x = 0; x < vm.movie.Reviews.length; x++) {
         tRating += vm.movie.Reviews[x].rating;
+        vm.editFlags.push(false);
       }
       return Number((tRating / vm.movie.Reviews.length).toFixed(0));
     }
@@ -57,7 +126,7 @@
       }).then(function () {
         $timeout(function () {
           movies.getApiMovies().delete({id: vm.movie._id}, function () {
-            $log.debug(vm.movie.Title + ' deleted');
+            $log.info(vm.movie.Title + ' deleted');
           }, function () {
             $log.error('error deleting '+vm.movie.Title);
           });

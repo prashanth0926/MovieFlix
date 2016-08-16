@@ -3,6 +3,7 @@
   <h4 class="modal-title">Register </h4>
 </div>
 <div class="modal-body">
+  <img ng-if="register.loading" src="assets/images/AjaxLoader.gif">
   <p ng-show="register.invalidate" class="loginError">User already exists...</p>
   <form class="" name="registerForm" ng-submit="" autocomplete="off">
     <div class="form-group"
@@ -48,7 +49,7 @@
     <div class="row modalBtns">
       <div class="col-sm-2">
         <div class="form-group">
-          <button ng-click="register.sendRegister()" ng-disabled="registerForm.$invalid"
+          <button ng-click="register.sendRegister(); registerForm.$setPristine()" ng-disabled="registerForm.$invalid"
                   class="btn btn-info btn-sm margin-top2" type="submit">Register
           </button>
         </div>

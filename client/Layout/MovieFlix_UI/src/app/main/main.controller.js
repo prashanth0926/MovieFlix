@@ -21,6 +21,7 @@
     vm.username = auth.getUsername();
     vm.movies = [];
     vm.admin = auth.isAdmin();
+    vm.recommended = movies.getLocalMovies();
 
     /** get the list of movies */
     getMovies();
@@ -103,6 +104,7 @@
         vm.admin = false;
         getMovies();
         $log.info('Logged out at: ' + new Date());
+        resetFilters();
       } else {
         var modalInstance = $uibModal.open({
           animation: true,
@@ -125,6 +127,7 @@
             getMovies();
             vm.username = auth.getUsername();
             $log.info('Logged in as ' + vm.username + ' at: ' + new Date());
+            resetFilters();
           }, 500);
         }, function () {
 

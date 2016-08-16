@@ -65,7 +65,8 @@
     </div>
     <div class="form-group">
       <label for="limit" class="">Catalogs: </label>
-      <div id="limit" class="myBtns" ng-dropdown-multiselect="" options="main.limitData" selected-model="main.limitModel"
+      <div id="limit" class="myBtns" ng-dropdown-multiselect="" options="main.limitData"
+           selected-model="main.limitModel"
            extra-settings="main.singleSettings" translation-texts="main.myFilts[4]"></div>
     </div>
     <div class="form-group">
@@ -97,7 +98,9 @@
 
     <div class="row myPagination">
       <div class="col-sm-4 pull-right">
-        <button ng-show="main.admin" ng-click="main.openAddMovie({}, false)" class="btn btn-default addMovie">Add Movie / TV Series</button>
+        <button ng-show="main.admin" ng-click="main.openAddMovie({}, false)" class="btn btn-default addMovie">Add Movie
+          / TV Series
+        </button>
       </div>
       <div class="col-sm-offset-4">
         <ul ng-show="pageFiltered.length" uib-pagination total-items="pageFiltered.length"
@@ -108,3 +111,31 @@
     <div ng-hide="pageFiltered.length"><h1 class="nothingtoshow">Nothing to show</h1></div>
   </div>
 </section>
+
+<section class="recomended">
+  <header>
+    <h3>Recommended: </h3>
+  </header>
+  <data-owl-carousel class="owl-carousel" data-options="{margin: 10}">
+    <div owl-carousel-item="" ng-repeat="movie in main.recommended | orderBy: ['imdbVotes', '-imdbRating'] | limitTo: 12" class="item">
+      <figure ng-click="main.openDetails(movie)">
+        <div class="hovereffect">
+          <img class="lazyOwl img-responsive" ng-src="{{movie.Poster}}" alt="{{movie.Title}}">
+          <div class="overlay">
+            <h2>{{movie.Title}}</h2>
+            <a class="info">More details</a>
+          </div>
+        </div>
+        <figcaption>{{movie.Title}}</figcaption>
+      </figure>
+    </div>
+  </data-owl-carousel>
+  <div class="row">
+    <button class="disabled col-sm-2 btn btn-primary prev"><span class="glyphicon glyphicon-step-backward"></span> Prev</button>
+    <button class="col-sm-offset-8 col-sm-2 btn btn-primary next">Next <span class="glyphicon glyphicon-step-forward"></span></button>
+  </div>
+</section>
+
+<footer class="copyright-footer">
+  <p>&copy;MovieFlix, 2016. All Rights reserved Prashanth Molakala</p>
+</footer>

@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" ng-click="detail.cancel()" class="close dismissModal1">&times;</button>
-  <div ng-show="detail.admin">
+  <div ng-if="detail.admin">
     <i ng-click="detail.editItem()" title="edit movie / tv series" class="btn btn-primary glyphicon glyphicon-edit"></i>
     <i ng-click="detail.deleteItem()" title="delete movie / tv series" class="btn btn-danger glyphicon glyphicon-remove"></i>
   </div>
@@ -121,23 +121,26 @@
               <option value="-rating">rating</option>
             </select>
           </legend>
+          <button ng-if="(detail.movie.Reviews.length > 0) && detail.admin" ng-click="detail.deleteAllReviews()" class="btn btn-sm btn-danger">Delete All Reviews</button>
           <div>
             <blockquote ng-repeat="review in detail.movie.Reviews | orderBy:detail.srtText">
               <div class="row">
                 <div class="col-sm-4">
-              <span class="rtngBar" uib-rating ng-model="review.rating" max=5 read-only="true"
+              <span class="rtngBar" uib-rating ng-model="review.rating" ng-change="detail.updateMyReview[$index].rating = review.rating" max=5 read-only="!detail.editFlags[$index]"
                     enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
                   <span class="label hoverLabel"
                         ng-class="{'label-danger': review.rating<2, 'label-warning': review.rating>=2 && review.rating<3,
                     'label-info': review.rating>=3 && review.rating<4, 'label-success': review.rating>=4}"
                         ng-show="true">{{detail.rtngText(review.rating)}}</span>
-                  <input ng-disabled="true" class="commentText" type="text" value="{{review.comment}}"/>
+                  <input ng-disabled="!detail.editFlags[$index]" class="commentText" type="text" ng-model="review.comment" ng-change="detail.updateMyReview[$index].comment = review.comment"/>
                 </div>
                 <div class="col-sm-1">
-                  <button title="edit review" ng-disabled="(review.postedBy.username != detail.username)"
+                  <button ng-if="!detail.editFlags[$index]" title="edit review" ng-click="detail.editReview($index)" ng-disabled="(review.postedBy.username != detail.username)"
                           class="btn btn-primary btn-xs glyphicon glyphicon-edit"></button>
-                  <button ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
+                  <button ng-if="!detail.editFlags[$index]" ng-click="detail.deleteReview($index, review._id)" ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
                           class="btn btn-danger btn-xs glyphicon glyphicon-remove"></button>
+                  <button ng-if="detail.editFlags[$index]" ng-click="detail.updateReview($index, review._id)" ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
+                          class="btn btn-success btn-xs glyphicon glyphicon-send"></button>
                 </div>
               </div>
               <footer>{{review.postedBy.firstname}}, {{review.updatedAt | date:'MMM. d, y'}}</footer>
