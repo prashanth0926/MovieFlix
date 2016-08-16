@@ -1,0 +1,66 @@
+# MovieFlix Server
+documentation for MovieFlix REST API
+
+## REST API built using express and mongodb
+created a Node.js Express app using web storm and implemented the code on the IDE
+used local instance of mongodb on default port 27017
+
+## structured data mapping into mongodb using mongoose
+stored data into mongodb(nosql) in a structured table like manner using mongoose ODM
+
+## user login and registration using passport
+registration, login of users is handled by passport
+password is protected using passport local strategy plugin
+validation of username and password done using passport
+
+## authentication of different users using jsonwebtoken
+authentication of ordinery users and admin done using jwt
+
+
+## how to run the server
+1. run local instance of mongodb on default port(27017)
+2. open terminal or cmd prompt and move to the directory MovieFlix_REST_API
+3. enter "npm start" in the termonal or cmd prompt
+4. server will be listening on port: 3000
+5. test the rest api using postman
+
+## register
+1. perform post on the url with body containing raw json data as mentioned below:
+POST - http://localhost:3000/users/register
+BODY(raw - JSON) -
+{"username": "<youremail>", "password": "<enterpassword>", "lastname":"<lastname>", "firstname":"<firstname"}
+2. registration successful! message should show up
+
+## login
+1. perform post on the url with body containing raw json data as mentioned below:
+POST - http://localhost:3000/users/login
+BODY(raw - JSON) -
+{"username": "<youremail>", "password": "<enterpassword>"}
+2. login successful! message with a token value should show up
+3. copy the token value and add it as value to a header key "x-access-token" and mentioned below:
+Headers:
+x-access-token : <paste the token which you got after successful login>
+4. you must send all the further requests using this token in the header
+
+## perform CRUD operations on the server
+1. if you want to perform any admin operations change the admin flag in your mongodb by opening mongo terminal and
+ using the below commands:
+a. use MovieFlix
+b. db.users.update({username:"<yourusername>"},{$set:{admin:true}})
+
+## other url's which you can hit as ordinery user
+1. GET - http://localhost:3000/movies
+2. GET - http://localhost:3000/movies/:movieId
+3. GET - http://localhost:3000/movies/:movieId/reviews
+4. POST - http://localhost:3000/movies/:movieId/reviews
+5. GET - http://localhost:3000/movies/:movieId/reviews/:reviewId
+6. PUT - http://localhost:3000/movies/:movieId/reviews/:reviewId (only the reviews created by that user)
+7. DELETE - http://localhost:3000/movies/:movieId/reviews/:reviewId (only the reviews created by that user)
+
+## other url's which you can hit as admin
+8. GET - http://localhost:3000/users
+9. POST - http://localhost:3000/movies
+10. DELETE - http://localhost:3000/movies
+11. PUT - http://localhost:3000/movies/:movoieId
+12. DELETE - http://localhost:3000/movies/:movieId
+13. DELETE - http://localhost:3000/movies/:movieId/reviews

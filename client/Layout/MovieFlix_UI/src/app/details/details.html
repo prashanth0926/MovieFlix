@@ -1,0 +1,198 @@
+<div class="modal-header">
+  <button type="button" ng-click="detail.cancel()" class="close dismissModal1">&times;</button>
+  <div ng-if="detail.admin">
+    <i ng-click="detail.editItem()" title="edit movie / tv series" class="btn btn-primary glyphicon glyphicon-edit"></i>
+    <i ng-click="detail.deleteItem()" title="delete movie / tv series" class="btn btn-danger glyphicon glyphicon-remove"></i>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="modalDtls">
+    <section class="dtlImg">
+      <img ng-src="{{detail.movie.Poster}}" class="image img-responsive detailImg">
+    </section>
+    <section class="dtlCnt">
+      <header class="row">
+        <div class="col-lg-6">
+          <div class="row">
+            <h1 class="col-sm-12">{{detail.movie.Title}}
+              <small> ({{detail.movie.Type}})</small>
+            </h1>
+            <p class="col-sm-12 dtlGnre">{{detail.movie.Genre}}</p>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <a class="row">
+            <p class="col-sm-12">Rated: <strong>{{detail.movie.Rated}}</strong></p>
+            <p class="col-sm-12"></p>
+            <p class="col-sm-12">Runtime: {{detail.movie.Runtime}}</p>
+          </a>
+        </div>
+        <div class="col-lg-3">
+          <!--<p class="col-sm-10 col-sm-offset-1 animated infinite" ng-class="'rubberBand'">
+            <button type="button" class="btn btn-lg btn-success" ng-click="$location.path('http://www.imdb.com/title/{{detail.movie.imdbID}}')">IMDb</button>
+          </p>-->
+          <div class="row">
+            <a class="" target="_blank" href="http://www.imdb.com/title/{{detail.movie.imdbID}}">
+              <p class="col-sm-12 animated infinite" ng-class="detail.myAnimation" ng-mouseover="detail.myAnimation = ''">IMDb rating: <strong>{{detail.movie.imdbRating}}</strong>
+              </p>
+              <p class="col-sm-12">IMDb votes: <strong>{{detail.movie.imdbVotes}}</strong></p>
+            </a>
+            <p class="col-sm-12">Metascore: <strong>{{detail.movie.Metascore}}</strong></p>
+          </div>
+        </div>
+      </header>
+      <article>{{detail.movie.Plot}}</article>
+      <table class="table table-striped">
+        <tr>
+          <th>
+            Realesed:
+          </th>
+          <td>
+            {{detail.movie.Released}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Writer:
+          </th>
+          <td>
+            {{detail.movie.Writer}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Director:
+          </th>
+          <td>
+            {{detail.movie.Director}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Actors:
+          </th>
+          <td>
+            {{detail.movie.Actors}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Language:
+          </th>
+          <td>
+            {{detail.movie.Language}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Country:
+          </th>
+          <td>
+            {{detail.movie.Country}}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            Awards:
+          </th>
+          <td>
+            {{detail.movie.Awards}}
+          </td>
+        </tr>
+      </table>
+      <div class="reviews">
+        <div class="">
+        <p class="">Average rating:
+        <span class="rtngBar" uib-rating ng-model="detail.averageRating" max=5 read-only="true"
+              enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
+        <span class="label hoverLabel"
+              ng-class="{'label-danger': detail.averageRating<2, 'label-warning': detail.averageRating>=2 && detail.averageRating<3,
+                    'label-info': detail.averageRating>=3 && detail.averageRating<4, 'label-success': detail.averageRating>=4}"
+              ng-show="true">{{detail.rtngText(detail.averageRating)}}</span>
+          </p>
+          </div>
+        <fieldset>
+          <legend>
+            Reviews:
+            <label class="srt" for="srt1">Sort by: </label>
+            <select id="srt1" ng-model='detail.srtText' name="srtTxt">
+              <option value="author">author</option>
+              <option value="-date">date</option>
+              <option value="-rating">rating</option>
+            </select>
+          </legend>
+          <button ng-if="(detail.movie.Reviews.length > 0) && detail.admin" ng-click="detail.deleteAllReviews()" class="btn btn-sm btn-danger">Delete All Reviews</button>
+          <div>
+            <blockquote ng-repeat="review in detail.movie.Reviews | orderBy:detail.srtText">
+              <div class="row">
+                <div class="col-sm-4">
+              <span class="rtngBar" uib-rating ng-model="review.rating" ng-change="detail.updateMyReview[$index].rating = review.rating" max=5 read-only="!detail.editFlags[$index]"
+                    enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
+                  <span class="label hoverLabel"
+                        ng-class="{'label-danger': review.rating<2, 'label-warning': review.rating>=2 && review.rating<3,
+                    'label-info': review.rating>=3 && review.rating<4, 'label-success': review.rating>=4}"
+                        ng-show="true">{{detail.rtngText(review.rating)}}</span>
+                  <input ng-disabled="!detail.editFlags[$index]" class="commentText" type="text" ng-model="review.comment" ng-change="detail.updateMyReview[$index].comment = review.comment"/>
+                </div>
+                <div class="col-sm-1">
+                  <button ng-if="!detail.editFlags[$index]" title="edit review" ng-click="detail.editReview($index)" ng-disabled="(review.postedBy.username != detail.username)"
+                          class="btn btn-primary btn-xs glyphicon glyphicon-edit"></button>
+                  <button ng-if="!detail.editFlags[$index]" ng-click="detail.deleteReview($index, review._id)" ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
+                          class="btn btn-danger btn-xs glyphicon glyphicon-remove"></button>
+                  <button ng-if="detail.editFlags[$index]" ng-click="detail.updateReview($index, review._id)" ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
+                          class="btn btn-success btn-xs glyphicon glyphicon-send"></button>
+                </div>
+              </div>
+              <footer>{{review.postedBy.firstname}}, {{review.updatedAt | date:'MMM. d, y'}}</footer>
+            </blockquote>
+          </div>
+
+          <blockquote ng-show="!commentForm.$invalid">
+              <span class="rtngBar" uib-rating ng-model="detail.myReview.rating" max=5 read-only="true"
+                    enable-reset="false" titles="['','','','','']" aria-labelledby="default-rating"></span>
+            <span class="label hoverLabel"
+                  ng-class="{'label-danger': detail.myReview.rating<2, 'label-warning': detail.myReview.rating>=2 && detail.myReview.rating<3, 'label-info': detail.myReview.rating>=3 && detail.myReview.rating<4, 'label-success': detail.myReview.rating>=4}"
+                  ng-show="true">{{detail.rtngText(detail.myReview.rating)}}</span>
+            <p>{{detail.myReview.comment}}</p>
+            <footer>{{detail.myReview.author}}, {{detail.myReview.date | date:'MMM. d, y'}}</footer>
+          </blockquote>
+          <div class="col-xs-9 col-xs-offset-1">
+            <form class="form-horizontal" name="commentForm"
+                  ng-submit="" novalidate>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Rating</label>
+                <span class="rtngBar" uib-rating ng-model="detail.myReview.rating" max=5 read-only="false"
+                      on-hover="detail.hoveringOver(value)"
+                      enable-reset="false" ng-click="detail.clickRtng()" on-leave="detail.hover = !detail.hover"
+                      titles="['1','2','3','4','5']" aria-labelledby="default-rating"></span>
+                <span class="label hoverLabel"
+                      ng-class="{'label-danger': detail.tmpRating<2, 'label-warning': detail.tmpRating>=2 && detail.tmpRating<3, 'label-info': detail.tmpRating>=3 && detail.tmpRating<4, 'label-success': detail.tmpRating>=4}"
+                      ng-show="detail.hover">{{detail.hoverText}}</span>
+              </div>
+              <div class="form-group"
+                   ng-class="{'has-error' : commentForm.feedback.$error.required && commentForm.feedback.$dirty}">
+                <label for="feedback" class="col-sm-2 control-label">Review</label>
+                <div class="col-sm-10">
+                            <textarea class="form-control" id="feedback" name="feedback" rows="3"
+                                      ng-model="detail.myReview.comment" required></textarea>
+                  <span ng-show="commentForm.feedback.$error.required && !commentForm.feedback.$pristine"
+                        class="help-block">Comment must be entered</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" ng-click="detail.submitReview(); commentForm.$setPristine();"
+                          class="btn btn-primary" ng-disabled="commentForm.$invalid">Submit Review
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </fieldset>
+      </div>
+    </section>
+    <div class="clear"></div>
+  </div>
+</div>
+
