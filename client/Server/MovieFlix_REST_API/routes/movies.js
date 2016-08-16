@@ -87,10 +87,12 @@ movieRouter.route('/:Id/reviews')
             out.Reviews.push(req.body);
             out.save(function (err, out) {
                 if (err)    throw err;
-                res.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                });
-                res.end('Added review for '+out.Title);
+                Movies.findById(out._id)
+                    .populate('Reviews.postedBy')
+                    .exec(function (err, out) {
+                        if (err)    throw err;
+                        res.json(out);
+                    });
             });
         });
     })

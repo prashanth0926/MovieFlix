@@ -140,9 +140,10 @@
     function submitReview() {
       movies.getReviews()
         .save({id: movie._id}, vm.myReview,
-          function () {
+          function (res) {
             vm.myReview = {rating: 5, comment: ''};
-            $uibModalInstance.close({movie: {}, delFlag:true});
+            vm.movie = res;
+            //$uibModalInstance.close({movie: {}, delFlag:true});
           }, function () {
             $log.error('Review submission failed');
           });
