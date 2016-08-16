@@ -7,5 +7,14 @@ documentation for how to run the client side application for MovieFlix
 
 ## copy the contents of dist folder and run in your local server like tomcat
 
+## admin creation
+1. register admin with credentials:
+{"username": "admin@movieflix.com", "password": "<your password>", "firstname": "<your first name>", "firstname": "<your last name>"}
+2. after step 1 enter the below command in mongoshell inside MovieFlix db of your server
+db.users.update({username:"admin@movieflix.com"},{$set:{admin:true}})
+3. after step 2 login with these credentials again 
+
+
+
 
 # THANK YOU
