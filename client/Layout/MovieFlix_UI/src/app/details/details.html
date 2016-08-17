@@ -121,7 +121,7 @@
               <option value="-rating">rating</option>
             </select>
           </legend>
-          <button ng-if="(detail.movie.Reviews.length > 0) && detail.admin" ng-click="detail.deleteAllReviews()" class="btn btn-sm btn-danger">Delete All Reviews</button>
+          <button ng-if="detail.movie.Reviews.length && detail.admin" ng-click="detail.deleteAllReviews()" class="btn btn-sm btn-danger">Delete All Reviews</button>
           <div>
             <blockquote ng-repeat="review in detail.movie.Reviews | orderBy:detail.srtText">
               <div class="row">
@@ -139,7 +139,7 @@
                           class="btn btn-primary btn-xs glyphicon glyphicon-edit"></button>
                   <button ng-if="!detail.editFlags[$index]" ng-click="detail.deleteReview($index, review._id)" ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
                           class="btn btn-danger btn-xs glyphicon glyphicon-remove"></button>
-                  <button ng-if="detail.editFlags[$index]" ng-click="detail.updateReview($index, review._id)" ng-disabled="(review.postedBy.username != detail.username)" title="delete review"
+                  <button ng-if="detail.editFlags[$index]" ng-click="detail.updateReview($index, review._id)" ng-disabled="(detail.updateMyReview[$index].comment == '')" title="update review"
                           class="btn btn-success btn-xs glyphicon glyphicon-send"></button>
                 </div>
               </div>

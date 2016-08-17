@@ -34,7 +34,7 @@
     vm.deleteAllReviews = deleteAllReviews;
     vm.updateReview = updateReview;
     vm.editFlags = [];
-    vm.updateMyReview = [];
+    vm.updateMyReview = vm.movie.Reviews;
     vm.averageRating = averageRating();
 
     function editReview(index) {
@@ -43,7 +43,7 @@
 
     function deleteReview(index, reviewId) {
       ngDialog.openConfirm({
-        template:'\
+        template: '\
                 <p>Confirm delete?</p>\
                 <div class="ngdialog-buttons">\
                     <button type="button" class="ngdialog-button ngdialog-button-secondary btn btn-default" ng-click="closeThisDialog(0)">No</button>\
@@ -66,7 +66,7 @@
 
     function deleteAllReviews() {
       ngDialog.openConfirm({
-        template:'\
+        template: '\
                 <p>Confirm delete?</p>\
                 <div class="ngdialog-buttons">\
                     <button type="button" class="ngdialog-button ngdialog-button-secondary btn btn-default" ng-click="closeThisDialog(0)">No</button>\
@@ -88,15 +88,17 @@
     }
 
     function updateReview(index, reviewId) {
-      movies.getReviews()
-        .update({id: movie._id, reviewId: reviewId}, vm.updateMyReview[index],
-          function () {
-            vm.updateMyReview[index] = {};
-          }, function () {
-            $log.error('Review update failed');
-          });
-      vm.averageRating = averageRating();
-      vm.editFlags[index] = false;
+      if (vm.updateMyReview[index].comment != '') {
+        movies.getReviews()
+          .update({id: movie._id, reviewId: reviewId}, vm.updateMyReview[index],
+            function () {
+
+            }, function () {
+              $log.error('Review update failed');
+            });
+        vm.averageRating = averageRating();
+        vm.editFlags[index] = false;
+      }
     }
 
     function averageRating() {
@@ -110,13 +112,13 @@
 
     function editItem() {
       $timeout(function () {
-        $uibModalInstance.close({movie: vm.movie, delFlag:false});
+        $uibModalInstance.close({movie: vm.movie, delFlag: false});
       }, 100);
     }
 
     function deleteItem() {
       ngDialog.openConfirm({
-        template:'\
+        template: '\
                 <p>Confirm delete?</p>\
                 <div class="ngdialog-buttons">\
                     <button type="button" class="ngdialog-button ngdialog-button-secondary btn btn-default" ng-click="closeThisDialog(0)">No</button>\
@@ -128,9 +130,9 @@
           movies.getApiMovies().delete({id: vm.movie._id}, function () {
             $log.info(vm.movie.Title + ' deleted');
           }, function () {
-            $log.error('error deleting '+vm.movie.Title);
+            $log.error('error deleting ' + vm.movie.Title);
           });
-          $uibModalInstance.close({movie: vm.movie, delFlag:true});
+          $uibModalInstance.close({movie: vm.movie, delFlag: true});
         }, 500);
       }, function () {
 
@@ -143,6 +145,7 @@
           function (res) {
             vm.myReview = {rating: 5, comment: ''};
             vm.movie = res;
+            vm.averageRating = averageRating();
             //$uibModalInstance.close({movie: {}, delFlag:true});
           }, function () {
             $log.error('Review submission failed');
