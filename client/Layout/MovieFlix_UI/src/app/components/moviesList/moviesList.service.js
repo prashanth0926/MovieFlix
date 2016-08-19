@@ -482,9 +482,21 @@
       }
     ];
 
+    var changedFalg = false;
+
+    this.getChangedFlag = getChangedFlag;
+    this.setChangedFlag = setChangedFlag;
     this.getLocalMovies = getLocalMovies;
     this.getApiMovies = getApiMovies;
     this.getReviews = getReviews;
+
+    function setChangedFlag(flag) {
+      changedFalg = flag;
+    }
+
+    function getChangedFlag() {
+      return changedFalg;
+    }
 
     function getLocalMovies() {
       return data;

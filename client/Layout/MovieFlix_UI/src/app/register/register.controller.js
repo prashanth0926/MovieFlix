@@ -31,6 +31,7 @@
         if (auth.authenticated()){
           $uibModalInstance.close(vm.userinfo);
         } else {
+          vm.loading = false;
           vm.userinfo = {firstname: '', lastname: '', username: vm.userinfo.username, password: ''};
           vm.invalidate = true;
         }

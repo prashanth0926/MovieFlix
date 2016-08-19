@@ -49,7 +49,7 @@
     <div class="row modalBtns">
       <div class="col-sm-2">
         <div class="form-group">
-          <button ng-click="register.sendRegister(); registerForm.$setPristine()" ng-disabled="registerForm.$invalid"
+          <button ng-click="register.sendRegister(); registerForm.$setPristine()" ng-disabled="registerForm.$invalid || register.loading"
                   class="btn btn-info btn-sm margin-top2" type="submit">Register
           </button>
         </div>

@@ -152,9 +152,11 @@
           if(!args.delFlag && (args.movie.Title != undefined)) {
             openAddMovie(movie, true);
           }
-          getMovies();
         }, function () {
-
+          if (movies.getChangedFlag()){
+            getMovies();
+            movies.setChangedFlag(false);
+          }
         });
       } else {
         vm.pleaseLogIn = true;

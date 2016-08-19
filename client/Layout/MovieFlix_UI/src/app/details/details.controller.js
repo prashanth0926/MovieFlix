@@ -146,6 +146,7 @@
             vm.myReview = {rating: 5, comment: ''};
             vm.movie = res;
             vm.averageRating = averageRating();
+            movies.setChangedFlag(true);
             //$uibModalInstance.close({movie: {}, delFlag:true});
           }, function () {
             $log.error('Review submission failed');

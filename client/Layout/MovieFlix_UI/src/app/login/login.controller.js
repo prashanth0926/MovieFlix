@@ -19,6 +19,7 @@
     vm.cancel = cancel;
     vm.sendLogin = sendLogin;
     vm.openRegister = openRegister;
+    vm.loading = false;
 
     function cancel() {
       $uibModalInstance.dismiss('cancel');
@@ -26,10 +27,12 @@
 
     function sendLogin() {
       auth.login(vm.credentials);
+      vm.loading = true;
       $timeout(function () {
         if(auth.authenticated()){
           $uibModalInstance.close();
         } else {
+          vm.loading = false;
           vm.loginValidate = true;
         }
       }, 500);
