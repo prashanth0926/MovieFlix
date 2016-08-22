@@ -103,8 +103,8 @@
         </button>
       </div>
       <div class="col-sm-offset-4">
-        <ul ng-show="pageFiltered.length" uib-pagination total-items="pageFiltered.length"
-            ng-model="main.currentPage" items-per-page='(main.limitModel.id)' max-size="main.maxSize"
+        <ul ng-show="pageFiltered.length && (numPages > 1)" uib-pagination total-items="pageFiltered.length"
+            ng-model="main.currentPage" items-per-page='(main.limitModel.id)' max-size="main.maxSize" num-pages="numPages"
             class="pagination-md myPagination" boundary-links="true" rotate="false"></ul>
       </div>
     </div>
