@@ -98,7 +98,7 @@
 
     function saveItem() {
       movies.getApiMovies().update({id: vm.movieItem._id}, vm.movieItem, function () {
-        $log.info(vm.movieItem.Type + ' ' + vm.movieItem.Title + ' has been saved');
+        $log.info(vm.movieItem.Type + ' ' + vm.movieItem.Title + ' has been updated');
       }, function () {
         $log.error('Unable to update movie');
       });
