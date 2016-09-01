@@ -88,6 +88,7 @@
     }
 
     function updateReview(index, reviewId) {
+      vm.updateMyReview = vm.movie.Reviews;
       if (vm.updateMyReview[index].comment != '') {
         movies.getReviews()
           .update({id: movie._id, reviewId: reviewId}, vm.updateMyReview[index],
